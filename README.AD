@@ -1,0 +1,33 @@
+3 Microservices with Flask and Docker
+
+Services :
+1.CreateUser Service: Handles user creation
+2.DeleteUser Service: Manages user deletion
+3.GetUser Service: Retrieves user information
+
+DB : 
+each microservice connects to  single MySQL database container.
+mysql:8.0-debian is used as the database for storing user data.
+
+
+volume  is used to persist database data.
+Host===={/mysql : /var/lib/mysql}=====container.
+
+Flow :
+
+
+#Example to create a user using CreateUser service:
+curl -X PUT http://localhost:5000/createuser -H "Content-Type: application/json" -d '{"id":5122, "name":"Jane Doe"}'
+
+#Example to delete a user using DeleteUser service:
+curl -X DELETE http://localhost:5001/deleteuser -H "Content-Type: application/json" -d '{"id":5122}'
+
+#Example to get a user using GetUser service:
+curl -X POST http://localhost:5002/getuser -H "Content-Type: application/json" -d '{"id":5122}'
+
+Each service runs in its own Docker container, ensuring isolation and scalability.
+allow communication between the microservices and the database container.
+docker create network my-appnet --bind=bridge
+
+scripts/bulk-api-calls.py #can be used to test the microservices by making bulk API calls.
+
