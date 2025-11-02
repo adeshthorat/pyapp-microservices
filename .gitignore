@@ -2,7 +2,7 @@
 app/container-setup/.vscode/
 app/container-setup/.venv/
 scripts/.env
-scripts/test_db_connection.py
+scripts/test-db-connection.py
 # Ignore environment file
 app/container-setup/.env
 
