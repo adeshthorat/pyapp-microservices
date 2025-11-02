@@ -1,5 +1,5 @@
 # Ignore local development directory
-app/container-setup/*
+
 
 # Ignore environment file
 app/container-setup/.env
