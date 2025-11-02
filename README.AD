@@ -5,7 +5,7 @@ Each microservice runs in its own isolated container and communicates with a sha
 
 ---
 
-![App Architecture](./lld.png)
+./lld.png
 
 
 🧩 Microservices Overview
