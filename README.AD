@@ -14,7 +14,7 @@ volume  is used to persist database data.
 Host===={/mysql : /var/lib/mysql}=====container.
 
 Flow :
-
+<img width="603" height="193" alt="Image" src="https://github.com/user-attachments/assets/e5ffeee8-3dc3-410d-83d9-049faf59ff4d" />
 
 #Example to create a user using CreateUser service:
 curl -X PUT http://localhost:5000/createuser -H "Content-Type: application/json" -d '{"id":5122, "name":"Jane Doe"}'
