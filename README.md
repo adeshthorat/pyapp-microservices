@@ -23,14 +23,19 @@ Retrieves **user information** based on the provided user ID.
 
 - Image:`mysql:8.0-debian`
 - Purpose: Centralized database for all microservices.
-- Persistence:Data is stored persistently using Docker volumes.
+- # Persistence:Data is stored persistently using Docker volumes.
 
-#Example to create a user using CreateUser service:
+## API Endpoints
+
+CreateUser service:
+
 curl -X PUT http://localhost:5000/createuser -H "Content-Type: application/json" -d '{"id":5122, "name":"Jane Doe"}'
 
-🧹 DeleteUser Service
+---
 
-URL: http://localhost:5001/deleteuser
+DeleteUser Service
+
+URL: http://localhost:5001/deleteuser/<user_id>
 Method: DELETE
 
 Example:
@@ -39,7 +44,9 @@ curl -X DELETE http://localhost:5001/deleteuser \
  -H "Content-Type: application/json" \
  -d '{"id":5122}'
 
-🔍 GetUser Service
+---
+
+GetUser Service
 
 URL: http://localhost:5002/getuser
 Method: POST
@@ -54,10 +61,10 @@ curl -X POST http://localhost:5002/getuser \
 
 🐳 Containerization Summary
 
-Each microservice is containerized separately:
-Independent Dockerfiles per service
-Shared MySQL database container
-Connected through my-appnet
+`1.Each microservice is containerized separately:
+2.Independent Dockerfiles per service
+3.Shared MySQL database container
+4.Connected through my-appnet
 
 ---
 
@@ -66,6 +73,7 @@ Connected through my-appnet
 Database persistence is handled via Docker volume:
 
 Host Path : /mysql
+
 Container Path : /var/lib/mysql
 
 ## This ensures data is retained even after container restarts.
