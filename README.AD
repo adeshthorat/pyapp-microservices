@@ -1,19 +1,31 @@
-3 Microservices with Flask and Docker
+# 🐍 Flask Microservices with Docker
 
-Services :
-1.CreateUser Service: Handles user creation
-2.DeleteUser Service: Manages user deletion
-3.GetUser Service: Retrieves user information
+This project demonstrates a **3-Microservice Architecture** using **Flask**, **Docker**, and a **MySQL** database.  
+Each microservice runs in its own isolated container and communicates with a shared database container over a custom Docker network.
 
-DB : 
-each microservice connects to  single MySQL database container.
-mysql:8.0-debian is used as the database for storing user data.
+---
+
+![App Architecture](./lld.png)
 
 
-volume  is used to persist database data.
-Host===={/mysql : /var/lib/mysql}=====container.
+🧩 Microservices Overview
 
-Flow :
+ 1️⃣ CreateUser Service
+Handles **user creation** and adds records to the MySQL database.
+
+2️⃣ DeleteUser Service
+Manages **user deletion** by removing user entries from the database.
+
+3️⃣ GetUser Service
+Retrieves **user information** based on the provided user ID.
+
+---
+
+## 🗄️ Database Configuration
+
+- Image:`mysql:8.0-debian`
+- Purpose: Centralized database for all microservices.
+- Persistence:Data is stored persistently using Docker volumes.  
 
 
 #Example to create a user using CreateUser service:
@@ -62,5 +74,4 @@ This ensures data is retained even after container restarts.
 You can automate or stress-test API calls using:
 
 scripts/bulk-api-calls.py
-
 This script sends multiple API requests across services for performance and integration testing.
