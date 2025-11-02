@@ -81,3 +81,11 @@ You can automate or stress-test API calls using:
 
 scripts/bulk-api-calls.py
 This script sends multiple API requests across services for performance and integration testing.
+
+## Commands to Run the Application
+
+docker run -d -p 5000:5000 --network myapp-net --name createuser-app <createuser-image>
+docker run -d -p 5001:5001 --network myapp-net --name deleteuser-app <deleteuser-image>
+docker run -d -p 5002:5002 --network myapp-net --name getuser-app <getuser-image>
+docker run -d -p 3306:3306 --network myapp-net --name mysql-db -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=rootpassword mysql:8.0-debian
+---
