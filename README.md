@@ -1,16 +1,14 @@
-# 🐍 Flask Microservices with Docker
+# Flask Microservices with Docker
 
 This project demonstrates a **3-Microservice Architecture** using **Flask**, **Docker**, and a **MySQL** database.  
 Each microservice runs in its own isolated container and communicates with a shared database container over a custom Docker network.
 
----
-
-![App Architecture](./lld.png)
-
+**Flowchart**
+![alt text](flow.png)
 
 🧩 Microservices Overview
 
- 1️⃣ CreateUser Service
+1️⃣ CreateUser Service
 Handles **user creation** and adds records to the MySQL database.
 
 2️⃣ DeleteUser Service
@@ -25,8 +23,7 @@ Retrieves **user information** based on the provided user ID.
 
 - Image:`mysql:8.0-debian`
 - Purpose: Centralized database for all microservices.
-- Persistence:Data is stored persistently using Docker volumes.  
-
+- Persistence:Data is stored persistently using Docker volumes.
 
 #Example to create a user using CreateUser service:
 curl -X PUT http://localhost:5000/createuser -H "Content-Type: application/json" -d '{"id":5122, "name":"Jane Doe"}'
@@ -39,8 +36,8 @@ Method: DELETE
 Example:
 
 curl -X DELETE http://localhost:5001/deleteuser \
-     -H "Content-Type: application/json" \
-     -d '{"id":5122}'
+ -H "Content-Type: application/json" \
+ -d '{"id":5122}'
 
 🔍 GetUser Service
 
@@ -50,25 +47,29 @@ Method: POST
 Example:
 
 curl -X POST http://localhost:5002/getuser \
-     -H "Content-Type: application/json" \
-     -d '{"id":5122}'
-----------------------------------------------------------------------------
+ -H "Content-Type: application/json" \
+ -d '{"id":5122}'
+
+---
+
 🐳 Containerization Summary
 
 Each microservice is containerized separately:
 Independent Dockerfiles per service
 Shared MySQL database container
 Connected through my-appnet
-----------------------------------------------------------------------------
+
+---
+
 📦 Volume Mapping
 
 Database persistence is handled via Docker volume:
 
-Host Path       : /mysql
-Container Path  : /var/lib/mysql
+Host Path : /mysql
+Container Path : /var/lib/mysql
 
-This ensures data is retained even after container restarts.
-----------------------------------------------------------------------------
+## This ensures data is retained even after container restarts.
+
 🚀 Testing Microservices in Bulk
 
 You can automate or stress-test API calls using:
