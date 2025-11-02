@@ -5,9 +5,6 @@ Each microservice runs in its own isolated container and communicates with a sha
 
 ---
 
-![App Architecture](./lld.png)
-
-
 🧩 Microservices Overview
 
  1️⃣ CreateUser Service
