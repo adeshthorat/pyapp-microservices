@@ -1,5 +1,6 @@
 # Ignore local development directory
-
+app/container-setup/.vscode/
+app/container-setup/.venv/
 
 # Ignore environment file
 app/container-setup/.env
