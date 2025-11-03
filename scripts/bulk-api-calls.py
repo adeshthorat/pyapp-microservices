@@ -8,7 +8,7 @@ def random_name():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
 for i in range(1, 1000):
-    user_id = 3000 + i
+    user_id = 2200 + i
     name = random_name()
     payload = {"id": user_id, "name": name}
 

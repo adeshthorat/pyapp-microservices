@@ -68,10 +68,10 @@ curl -X POST http://localhost:5002/getuser \
 
 🐳 Containerization Summary
 
-`1.Each microservice is containerized separately:
-2.Independent Dockerfiles per service
-3.Shared MySQL database container
-4.Connected through my-appnet
+1.  microservice is containerized separately
+2.  Independent Dockerfiles per service
+3.  Shared MySQL database container
+4.  Connected through my-appnet
 
 ---
 
@@ -82,12 +82,17 @@ You can automate or stress-test API calls using:
 scripts/bulk-api-calls.py
 This script sends multiple API requests across services for performance and integration testing.
 
-## Commands to Run the Application##
+## 📁 Project Structure
 
-1. docker network create myapp-net
-2. docker run -d -p 5000:5000 --network myapp-net --name createuser-app <createuser-image>
-3. docker run -d -p 5001:5001 --network myapp-net --name deleteuser-app <deleteuser-image>
-4. docker run -d -p 5002:5002 --network myapp-net --name getuser-app <getuser-image>
-5. docker run -d -p 3306:3306 --network myapp-net --name mysql-db -v /mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$rootpassword mysql:8.0-debian
-
----
+```plaintext
+pyapp/
+│├── app/container-setup/
+│   ├── CreateUser/
+│   ├── DeleteUser/
+│   ├── GetUser/
+│   ├── mysql_data/
+│   └── .env
+│├── scripts/
+│   └── bulk-api-calls.py
+│└── README.md
+```
