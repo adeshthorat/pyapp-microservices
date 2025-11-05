@@ -1,5 +1,7 @@
 # Flask Microservices with Docker
 
+![alt text](docker.png)
+
 This project demonstrates a **3-Microservice Architecture** using **Flask**, **Docker**, and a **MySQL** database.  
 Each microservice runs in its own isolated container and communicates with a shared database container over a custom Docker network.
 

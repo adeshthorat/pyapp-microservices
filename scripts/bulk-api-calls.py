@@ -2,13 +2,17 @@ import requests
 import random
 import string
 
-API_URL = "http://localhost:5000/createuser"
+
+HOST_IP = input("Enter EC2 Public ip: ")
+NODE_PORT = input("Enter svc Node port: ")
+
+API_URL = f"http://{HOST_IP}:{NODE_PORT}/createuser"
 
 def random_name():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
 for i in range(1, 1000):
-    user_id = 2200 + i
+    user_id = 1 + i
     name = random_name()
     payload = {"id": user_id, "name": name}
 
