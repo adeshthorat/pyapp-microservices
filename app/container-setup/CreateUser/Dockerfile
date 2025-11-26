@@ -1,17 +1,7 @@
-#Global argument for Python version
-ARG PYTHON_VER="3.10-slim"
-
-#Can be overridden at build time
-FROM python:${PYTHON_VER}
-
-WORKDIR /app
-
+FROM python:3.9 AS builder
 COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY createuser.py .
-
-EXPOSE 5000
-
+RUN pip install -r requirements.txt
+FROM python:3.9-slim
+COPY --from=builder /usr/local/lib/python3.9 /usr/local/lib/python3.9
+COPY . .
 CMD ["python", "createuser.py"]

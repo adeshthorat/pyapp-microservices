@@ -1,6 +1,7 @@
 # Ignore local development directory
 app/container-setup/.vscode/
 app/container-setup/.venv/
+app/UIsetup/.venv/
 scripts/.env
 scripts/test-db-connection.py
 # Ignore environment file
@@ -14,3 +15,4 @@ __pycache__/
 .vscode/
 .idea/
 .DS_Store
+app/UIsetup/backend/createuser/.env

@@ -21,7 +21,7 @@ This project demonstrates a **3-Microservice Architecture** using **Flask**, **D
 Each microservice runs in its own isolated container and communicates with a shared database container over a custom Docker network.
 
 **Flowchart**
-![alt text](flow.png)
+![alt text](/img/flow.png)
 
 🧩 Microservices Overview
 
