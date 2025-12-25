@@ -6,10 +6,10 @@ app = Flask(__name__)
 CORS(app)
 
 db_config = {
-    'host': os.getenv('DB_HOST', '127.0.0.1'),
-    'user': os.getenv('DB_USER', 'myuser'),
-    'password': os.getenv('DB_PASS', 'mypass'),
-    'database': os.getenv('DB_NAME', 'userdb'),
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASS'),
+    'database': os.getenv('DB_NAME'),
     'port': int(os.getenv('DB_PORT', '3306'))
 }
 

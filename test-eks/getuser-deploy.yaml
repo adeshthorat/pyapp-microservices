@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: getuser-deploy
+  labels:
+    app: getuser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: getuser
+  template:
+    metadata:
+      labels:
+        app: getuser
+    spec:
+      containers:
+        - name: pyapp
+          image: adesh0303/flaskapp:getuser-UI
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbhost
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbpass
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbuser
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbport
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbname
