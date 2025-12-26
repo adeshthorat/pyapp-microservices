@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+      color: #333;
+    }
+    h1 { text-align: center; }
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 8px 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+    }
+    button:hover { background-color: #0056b3; }
+    #output {
+      white-space: pre-wrap;
+      background: #eef;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>User Management Portal</h1>
+
+<div class="section">
+  <h2>Create / Update User</h2>
+  <input type="number" id="create_id" placeholder="User ID" />
+  <input type="text" id="create_name" placeholder="Name" />
+  <input type="text" id="create_email" placeholder="Email" />
+  <input type="text" id="create_city" placeholder="City" />
+  <button onclick="createUser()">Create / Update</button>
+</div>
+
+<div class="section">
+  <h2>Get User</h2>
+  <input type="number" id="get_id" placeholder="User ID" />
+  <button onclick="getUser()">Get User</button>
+</div>
+
+<div class="section">
+  <h2>Delete User</h2>
+  <input type="number" id="delete_id" placeholder="User ID" />
+  <button onclick="deleteUser()">Delete User</button>
+</div>
+
+<div class="section">
+  <h2>Output</h2>
+  <div id="output">Waiting for action...</div>
+</div>
+
+<script>
+  function showMessage(msg, color = "black") {
+    const out = document.getElementById("output");
+    out.style.color = color;
+    out.textContent = msg;
+  }
+
+  async function createUser() {
+    try {
+      const res = await fetch("/createuser", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: Number(create_id.value),
+          name: create_name.value,
+          email: create_email.value,
+          city: create_city.value
+        })
+      });
+      const data = await res.json();
+      showMessage(JSON.stringify(data, null, 2), "green");
+    } catch (e) {
+      showMessage(e.toString(), "red");
+    }
+  }
+
+  async function getUser() {
+    try {
+      const res = await fetch(`/getuser/${get_id.value}`);
+      const data = await res.json();
+      showMessage(JSON.stringify(data, null, 2), "green");
+    } catch (e) {
+      showMessage(e.toString(), "red");
+    }
+  }
+
+  async function deleteUser() {
+    try {
+      const res = await fetch(`/api/deleteuser/${delete_id.value}`, {
+        method: "DELETE"
+      });
+      const data = await res.json();
+      showMessage(JSON.stringify(data, null, 2), "green");
+    } catch (e) {
+      showMessage(e.toString(), "red");
+    }
+  }
+</script>
+
+</body>
+</html>
