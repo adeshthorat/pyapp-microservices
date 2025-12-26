@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 from dotenv import load_dotenv
 import mysql.connector, os, time
 
@@ -8,24 +7,24 @@ app = Flask(__name__)
 load_dotenv()
 
 # Load DB config from environment
+# db_config = {
+#     'host': os.getenv('DB_HOST', 'mysqldb'), #App-DB both are in container use DB_HOST = mysql-db else DB_HOST = '127.0.0.1'
+#     'user': os.getenv('DB_USER', 'myuser'),
+#     'password': os.getenv('DB_PASS', 'mypass'),
+#     'database': os.getenv('DB_NAME', 'userdb'),
+#     'port': int(os.getenv('DB_PORT', 3306))
+# }
+
 db_config = {
-    'host': os.getenv('DB_HOST'), #App-DB both are in container use DB_HOST = mysql-db else DB_HOST = '127.0.0.1'
+    'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASS'),
     'database': os.getenv('DB_NAME'),
     'port': int(os.getenv('DB_PORT', 3306))
 }
 
-# db_config = {
-#     'host': os.getenv('DB_HOST'),
-#     'user': os.getenv('DB_USER'),
-#     'password': os.getenv('DB_PASS'),
-#     'database': os.getenv('DB_NAME'),
-#     'port': int(os.getenv('DB_PORT', 3306))
-# }
-
 # Wait for DB to become ready
-for i in range(5):
+for i in range(10):
     try:
         conn = mysql.connector.connect(**db_config)
         if conn.is_connected():

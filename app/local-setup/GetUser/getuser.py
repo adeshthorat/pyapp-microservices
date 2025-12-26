@@ -13,7 +13,7 @@ db_config = {
 }
 
 # Wait for DB to be ready
-for i in range(3):
+for i in range(10):
     try:
         conn = mysql.connector.connect(**db_config)
         if conn.is_connected():

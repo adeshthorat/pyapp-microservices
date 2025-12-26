@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: getuser-service
+  name: getuser
 spec:
   selector:
     app: getuser

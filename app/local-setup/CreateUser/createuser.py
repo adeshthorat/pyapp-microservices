@@ -22,10 +22,10 @@ for i in range(10):
             break
     except Exception as e:
         print("⏳ Waiting for MySQL...", e)
-        time.sleep(2)
+        time.sleep(5)
 
 @app.route('/createuser', methods=['PUT'])
-def update_user():✅
+def update_user():
     data = request.get_json()
     user_id = data['id']
     name = data['name']
@@ -35,8 +35,6 @@ def update_user():✅
 
     cursor.execute("INSERT INTO users (id, name) VALUES (%s, %s)", (user_id, name))
     conn.commit()
-    
-
 
     cursor.close()
     conn.close()
@@ -44,6 +42,7 @@ def update_user():✅
     return jsonify({'message': f'Success !  {user_id} updated is userdb database !'})
 
 @app.route('/testdb', methods=['GET']) # type: ignore
+
 def test_db():
     try:
         conn = mysql.connector.connect(**db_config)
