@@ -14,6 +14,17 @@ db_config = {
     'port': int(os.getenv('DB_PORT', '3306'))
 }
 
+for i in range(3):
+    try:
+        conn = mysql.connector.connect(**db_config)
+        if conn.is_connected():
+            print("✅ Connected to MySQL database.......")
+            conn.close()
+            break
+    except Exception as e:
+        print("⏳ Waiting for MySQL...", e)
+        time.sleep(3)
+
 def get_db_connection(retries=8, delay=2):
     for attempt in range(1, retries+1):
         try:
