@@ -1,10 +1,12 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify , request , g
 import mysql.connector, os, time
+import logging
 
 app = Flask(__name__)
 
 SERVICE_VERSION = "v1.0.1"
-
+logger = logging.getLogger('getuser_service')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 # Load DB config from environment
 db_config = {
     'host': os.getenv('DB_HOST', '127.0.0.1'),
@@ -26,6 +28,14 @@ for i in range(10):
         print("⏳ Waiting for MySQL...", e)
         time.sleep(5)
 
+@app.before_request
+def log_request():
+    logger.info(
+        "Incoming request | method=%s path=%s remote_addr=%s",
+        request.method,
+        request.path,
+        request.remote_addr
+    )
 @app.route('/getuser/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     try:
@@ -45,7 +55,6 @@ def get_user(user_id):
                 "version": SERVICE_VERSION,
                 "status": "success✅"                
             }), 200
-
         return jsonify({
             "service": "getuser",
             "version": SERVICE_VERSION,

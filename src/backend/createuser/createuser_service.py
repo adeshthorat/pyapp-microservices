@@ -1,14 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify ,request
 from flask_cors import CORS
 import mysql.connector, os, time
 from dotenv import load_dotenv
-
+import logging
 
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
 SERVICE_VERSION = "v1.0.1"
+logger = logging.getLogger('createuser_service')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Load DB config from environment
 db_config = {
@@ -41,6 +43,15 @@ def get_db_connection(retries=3, delay=2):
             print(f"DB connect attempt {attempt}/{retries} failed: {e}")
             time.sleep(delay)
     raise ConnectionError("❌Cannot connect to MySQL after retries")
+
+@app.before_request
+def log_request():
+    logger.info(
+        "Incoming request | method=%s path=%s remote_addr=%s",
+        request.method,
+        request.path,
+        request.remote_addr
+    )
 
 @app.route('/createuser', methods=['PUT'])
 def create_user():

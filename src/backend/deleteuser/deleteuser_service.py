@@ -1,11 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify , request
 from flask_cors import CORS
 import mysql.connector, os, time
+import logging
 
 app = Flask(__name__)
 CORS(app)
 
 SERVICE_VERSION = "v1.0.0"
+logger = logging.getLogger('createuser_service')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 db_config = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
@@ -35,6 +39,14 @@ def get_db_connection(retries=8, delay=2):
             print(f"DB connect attempt {attempt}/{retries} failed: {e}")
             time.sleep(delay)
     raise ConnectionError("Cannot connect to MySQL after retries")
+@app.before_request
+def log_request():
+    logger.info(
+        "Incoming request | method=%s path=%s remote_addr=%s",
+        request.method,
+        request.path,
+        request.remote_addr
+    )
 
 @app.route('/deleteuser/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
