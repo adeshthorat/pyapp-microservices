@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deploy #>Charts.name
+  name: frontend-app
   labels:
-    app: frontend #charts.createuserlabels
+    app: frontend
 spec:
-  replicas: 1 #.values.replicaCount
+  replicas: 1
   selector:
     matchLabels:
-      app: frontend #Charts.createuserlables
+      app: frontend
   template:
     metadata:
       labels:
-        app: frontend #Charts.createuserlables
+        app: frontend
     spec:
       containers:
-        - name: pyapp #.Chart.Name
-          image: adesh0303/flaskapp:frontend-UI #.Values.image.repository:.Values.images.tag
+        - name: frontend
+          image: adesh0303/eks-app:frontend

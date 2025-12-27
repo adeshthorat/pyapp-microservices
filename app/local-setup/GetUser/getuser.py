@@ -3,6 +3,8 @@ import mysql.connector, os, time
 
 app = Flask(__name__)
 
+SERVICE_VERSION = "v1.0.1"
+
 # Load DB config from environment
 db_config = {
     'host': os.getenv('DB_HOST', '127.0.0.1'),
@@ -37,10 +39,19 @@ def get_user(user_id):
         conn.close()
 
         if user:
-            return jsonify(user), 200
-        else:
-            return jsonify({'message': f'User with ID {user_id} not found'}), 404
+            return jsonify({
+                "data": user,
+                "service": "getuser",
+                "version": SERVICE_VERSION,
+                "status": "success✅"                
+            }), 200
 
+        return jsonify({
+            "service": "getuser",
+            "version": SERVICE_VERSION,
+            "status": "error",
+            "message": f"User with ID {user_id} not found❎"
+        }), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

@@ -73,7 +73,7 @@ def create_user():
             )
             conn.commit()
             status = 200
-            msg = f'User {user_id} updated (was existing).'
+            msg = f'User {user_id} updated.'
         finally:
             cursor.close()
             conn.close()

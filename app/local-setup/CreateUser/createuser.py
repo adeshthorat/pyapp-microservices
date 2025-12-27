@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import mysql.connector, os, time
 
 app = Flask(__name__)
-
+SERVICE_VERSION = "v1.0.1"
 # Load DB config from environment
 db_config = {
     'host': os.getenv('DB_HOST', '127.0.0.1'), #App-DB both are in container use DB_HOST = mysql-db else DB_HOST = '127.0.0.1'
@@ -39,7 +39,12 @@ def update_user():
     cursor.close()
     conn.close()
 
-    return jsonify({'message': f'Success !  {user_id} updated is userdb database !'})
+    return jsonify({
+        'message': f'Success ✅ ! {user_id} updated in Database !',
+        'status': 'success',
+        'service': 'createuser',
+        'version': SERVICE_VERSION
+        }), 200
 
 @app.route('/testdb', methods=['GET']) # type: ignore
 

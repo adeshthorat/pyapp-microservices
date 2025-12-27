@@ -3,7 +3,7 @@ from flask_cors import CORS
 import mysql.connector, os, time
 from dotenv import load_dotenv
 
-SERVICE_VERSION = "v1.0.1"
+
 
 app = Flask(__name__)
 CORS(app)
@@ -54,19 +54,8 @@ def get_user(user_id):
         conn.close()
 
         if user:
-            return jsonify({
-                "data": user,
-                "service": "getuser",
-                "version": SERVICE_VERSION,
-                "status": "success✅"                
-            }), 200
-
-        return jsonify({
-            "service": "getuser",
-            "version": SERVICE_VERSION,
-            "status": "error",
-            "message": f"User with ID {user_id} not found❎"
-        }), 404
+            return jsonify(user), 200
+        return jsonify({'message': f'User with ID {user_id} not found'}), 404
 
     except ConnectionError as ce:
         return jsonify({'error': str(ce)}), 500

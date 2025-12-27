@@ -90,6 +90,9 @@
           city: create_city.value
         })
       });
+
+
+
       const data = await res.json();
       showMessage(JSON.stringify(data, null, 2), "green");
     } catch (e) {
@@ -109,7 +112,7 @@
 
   async function deleteUser() {
     try {
-      const res = await fetch(`/api/deleteuser/${delete_id.value}`, {
+      const res = await fetch(`/deleteuser/${delete_id.value}`, {
         method: "DELETE"
       });
       const data = await res.json();
