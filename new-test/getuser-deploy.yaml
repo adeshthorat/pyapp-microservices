@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: createuser-app
+  name: getuser-app
   labels:
-    app: createuser
+    app: getuser
     config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: createuser
+      app: getuser
       config: appspecs
   template:
     metadata:
       labels:
-        app: createuser
+        app: getuser
         config: appspecs
     spec:
       containers:
-        - name: createuser
-          image: adesh0303/eks-app:createuserservice
+        - name: getuser
+          image: adesh0303/eks-app:getuserservice
           env:
             - name: DB_HOST
               valueFrom:

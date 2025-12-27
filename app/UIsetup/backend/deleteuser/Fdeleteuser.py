@@ -5,6 +5,8 @@ import mysql.connector, os, time
 app = Flask(__name__)
 CORS(app)
 
+SERVICE_VERSION = "v1.0.0"
+
 db_config = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
@@ -38,8 +40,18 @@ def delete_user(user_id):
         conn.close()
 
         if rows == 0:
-            return jsonify({'message': f'No user found with ID {user_id}.'}), 404
-        return jsonify({'message': f'Success! User {user_id} deleted.'}), 200
+            return jsonify({
+                'message': f'No user found with ID {user_id}.',
+                "service": "deleteuser",
+                "version": SERVICE_VERSION,
+                "status": "not_found"
+                }), 404
+        return jsonify({
+            'message': f'Success ✅! User id {user_id} deleted.',
+            "service": "deleteuser",
+            "version": SERVICE_VERSION,
+            "status": "success✅"
+            }), 200
 
     except ConnectionError as ce:
         return jsonify({'error': str(ce)}), 500

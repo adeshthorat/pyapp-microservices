@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mysqldb
-          image: adesh0303/flaskapp:mysqldb-UI
+          image: adesh0303/eks-app:mysqldb
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:

@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: pyapp-config
   labels:
-    app: pyapp
+    config: appspecs
 data:
   rootpass: "root"
   databasename: "userdb"

@@ -4,11 +4,11 @@ import mysql.connector, os, time
 from dotenv import load_dotenv
 
 
-
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
+SERVICE_VERSION = "v1.0.0"
 # Load DB config from environment
 db_config = {
     'host': os.getenv('DB_HOST'), #App-DB both are in container use DB_HOST = mysql-db else DB_HOST = '127.0.0.1'
@@ -54,8 +54,19 @@ def get_user(user_id):
         conn.close()
 
         if user:
-            return jsonify(user), 200
-        return jsonify({'message': f'User with ID {user_id} not found'}), 404
+            return jsonify({
+                "data": user,
+                "service": "getuser",
+                "version": SERVICE_VERSION,
+                "status": "success✅"                
+            }), 200
+
+        return jsonify({
+            "service": "getuser",
+            "version": SERVICE_VERSION,
+            "status": "error",
+            "message": f"User with ID {user_id} not found❎"
+        }), 404
 
     except ConnectionError as ce:
         return jsonify({'error': str(ce)}), 500

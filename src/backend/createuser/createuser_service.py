@@ -8,6 +8,8 @@ app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
+SERVICE_VERSION = "v1.0.1"
+
 # Load DB config from environment
 db_config = {
     'host': os.getenv('DB_HOST'), #App-DB both are in container use DB_HOST = mysql-db else DB_HOST = '127.0.0.1'
@@ -64,7 +66,7 @@ def create_user():
             )
             conn.commit()
             status = 201
-            msg = f'User {user_id} inserted.'
+            msg = f'Success ✅ ,New User {user_id} inserted in Database.'
         except mysql.connector.IntegrityError:
             # if id exists, do an update (mirror a simple upsert)
             cursor.execute(
@@ -73,12 +75,18 @@ def create_user():
             )
             conn.commit()
             status = 200
-            msg = f'User {user_id} updated (was existing).'
+            msg = f'Success ✅!{user_id} updated in Database !'
         finally:
             cursor.close()
             conn.close()
 
-        return jsonify({'message': msg}), status
+        return jsonify({
+            'message': msg,
+            'status': 'success',
+            'status_code': status,
+            'service': 'createuser',
+            'version': SERVICE_VERSION
+            }), 200
 
     except ConnectionError as ce:
         return jsonify({'error': str(ce)}), 500

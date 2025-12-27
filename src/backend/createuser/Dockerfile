@@ -3,16 +3,19 @@ ARG PYTHON_VER="3.10-slim"
 
 #Can be overridden at build time
 FROM python:${PYTHON_VER}
+LABEL app="CreateuserService"
+LABEL maintainer="adeshthorat"
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && rm -rf /root/.cache
 
-COPY Fcreateuser.py .
+COPY createuser_service.py .
 
 EXPOSE 5000
 
-CMD ["python", "Fcreateuser.py"]
+CMD ["python", "createuser_service.py"]
 

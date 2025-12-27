@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: createuser-app
+  name: delete-app
   labels:
-    app: createuser
+    app: deleteuser
     config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: createuser
+      app: deleteuser
       config: appspecs
   template:
     metadata:
       labels:
-        app: createuser
+        app: deleteuser
         config: appspecs
     spec:
       containers:
-        - name: createuser
-          image: adesh0303/eks-app:createuserservice
+        - name: deleteuser
+          image: adesh0303/eks-app:deleteuserservice
           env:
             - name: DB_HOST
               valueFrom:
