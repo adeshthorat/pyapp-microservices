@@ -15,7 +15,6 @@ spec:
     metadata:
       labels:
         app: createuser
-        config: appspecs
     spec:
       containers:
         - name: createuser

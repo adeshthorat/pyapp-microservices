@@ -15,7 +15,6 @@ spec:
     metadata:
       labels:
         app: deleteuser
-        config: appspecs
     spec:
       containers:
         - name: deleteuser
