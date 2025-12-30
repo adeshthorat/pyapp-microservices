@@ -4,11 +4,13 @@ metadata:
   name: getuser-app
   labels:
     app: getuser
+    config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: getuser
+      config: appspecs
   template:
     metadata:
       labels:
@@ -18,6 +20,29 @@ spec:
       containers:
         - name: getuser
           image: adesh0303/eks-app:getuserservice
-          envFrom:
-            - configMapRef:
-                name: pyapp-config
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbhost
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbpass
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbuser
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbport
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbname

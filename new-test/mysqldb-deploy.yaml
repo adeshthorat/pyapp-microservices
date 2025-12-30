@@ -17,6 +17,24 @@ spec:
       containers:
         - name: mysqldb
           image: adesh0303/eks-app:mysqldb
-          envFrom:
-            - configMapRef:
-                name: pyapp-config
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: rootpass
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: databasename
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: userpass
