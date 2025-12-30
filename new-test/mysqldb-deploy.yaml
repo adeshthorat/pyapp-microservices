@@ -20,4 +20,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: pyapp-config
-      restartPolicy: Never

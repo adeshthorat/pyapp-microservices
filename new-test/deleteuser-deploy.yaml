@@ -10,7 +10,6 @@ spec:
   selector:
     matchLabels:
       app: deleteuser
-      config: appspecs
   template:
     metadata:
       labels:
@@ -22,4 +21,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: pyapp-config
-      restartPolicy: Never

@@ -4,7 +4,6 @@ metadata:
   name: getuser-app
   labels:
     app: getuser
-    config: appspecs
 spec:
   replicas: 1
   selector:
@@ -22,4 +21,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: pyapp-config
-      restartPolicy: Never
