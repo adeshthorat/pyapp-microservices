@@ -17,6 +17,9 @@ spec:
       containers:
         - name: mysqldb
           image: adesh0303/eks-app:mysqldb
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -38,3 +41,8 @@ spec:
                 configMapKeyRef:
                   name: pyapp-config
                   key: userpass
+      volumes:
+        - name: db-data
+          hostPath:
+            path: "/var/lib/mysql"
+            type: DirectoryOrCreate

@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: createuser
+  name: frontend-svc
 spec:
   selector:
-    app: createuser
+    app: frontend
   type: NodePort
   ports:
-    - name: createuser-port
+    - name: frontend-port
       port: 80
       targetPort: 80

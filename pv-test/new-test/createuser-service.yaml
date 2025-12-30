@@ -5,8 +5,8 @@ metadata:
 spec:
   selector:
     app: createuser
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: createuser-port
-      port: 80
-      targetPort: 80
+      port: 5000
+      targetPort: 5000

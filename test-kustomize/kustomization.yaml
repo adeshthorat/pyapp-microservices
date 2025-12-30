@@ -7,3 +7,13 @@ resources:
   - getuser-k/
   - mysqldb-k/
 # kustomization.yaml
+
+namespace: default
+nameSuffix: -prd
+commonLabels:
+  env: prod-app
+commonAnnotations:
+  branch: prod-app
+images:
+  - name: adesh0303/flaskapp
+    newTag: latest
