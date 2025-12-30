@@ -20,29 +20,7 @@ spec:
       containers:
         - name: deleteuser
           image: adesh0303/eks-app:deleteuserservice
-          env:
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: dbhost
-            - name: DB_PASS
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: dbpass
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: dbuser
-            - name: DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: dbport
-            - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: dbname
+          envFrom:
+            - configMapRef:
+                name: pyapp-config
+      restartPolicy: Never

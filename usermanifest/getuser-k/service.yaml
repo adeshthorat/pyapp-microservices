@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: getuser
+  namespace: default
+spec:
+  selector:
+    app: getuser
+  type: ClusterIP
+  ports:
+    - name: getuser-port
+      port: 5002
+      targetPort: 5002
