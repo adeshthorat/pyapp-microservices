@@ -4,18 +4,17 @@ metadata:
   name: createuser-app
   labels:
     app: createuser
-    config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: createuser
-      config: appspecs
+
   template:
     metadata:
       labels:
         app: createuser
-        config: appspecs
+
     spec:
       containers:
         - name: createuser

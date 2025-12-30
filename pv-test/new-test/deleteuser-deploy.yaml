@@ -4,18 +4,17 @@ metadata:
   name: delete-app
   labels:
     app: deleteuser
-    config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: deleteuser
-      config: appspecs
+
   template:
     metadata:
       labels:
         app: deleteuser
-        config: appspecs
+
     spec:
       containers:
         - name: deleteuser

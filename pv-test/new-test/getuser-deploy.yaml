@@ -4,18 +4,17 @@ metadata:
   name: getuser-app
   labels:
     app: getuser
-    config: appspecs
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: getuser
-      config: appspecs
+
   template:
     metadata:
       labels:
         app: getuser
-        config: appspecs
+
     spec:
       containers:
         - name: getuser
