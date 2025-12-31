@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: createuser
+spec:
+  selector:
+    app: createuser
+  type: ClusterIP
+  ports:
+    - name: createuser-port
+      port: 5000
+      targetPort: 5000
