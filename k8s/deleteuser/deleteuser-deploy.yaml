@@ -14,6 +14,24 @@ spec:
       labels:
         app: deleteuser
     spec:
+      initContainers:
+        - name: config-check
+          image: busybox:1
+          command: ["sh", "-c", "env | grep DB_HOST"]
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbhost
+        - name: mysql-test
+          image: busybox:1
+          command:
+            [
+              "sh",
+              "-c",
+              "until nslookup mysqldb.default.svc.cluster.local ; do echo Waiting for mysqldb; sleep 2;done",
+            ]
       containers:
         - name: deleteuser
           image: adesh0303/eks-app:deleteuser-base
