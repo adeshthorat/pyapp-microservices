@@ -9,10 +9,12 @@ spec:
   selector:
     matchLabels:
       app: mysqldb
+      config: appspecs
   template:
     metadata:
       labels:
         app: mysqldb
+        config: appspecs
     spec:
       containers:
         - name: mysqldb

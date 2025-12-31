@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+  namespace: default
+  labels:
+    config: appspecs
+spec:
+  initContainers:
+    - name: config-check
+      image: busybox:1
+      command: ["sh", "-c", "env | grep DB_HOST"]
+      env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbhost
+    - name: mysql-test
+      image: busybox:1
+      command:
+        [
+          "sh",
+          "-c",
+          "until nslookup mysqldb.default.svc.cluster.local ; do echo Waiting for mysqldb; sleep 2;done",
+        ]
+  containers:
+    - name: createuser
+      image: adesh0303/eks-app:createuser-base
+      env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbhost
+        - name: DB_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbpass
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbuser
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbport
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: pyapp-config
+              key: dbname

@@ -5,6 +5,7 @@ metadata:
 spec:
   selector:
     app: mysqldb
+    config: appspecs
   type: ClusterIP
   ports:
     - name: mysqldb-port
