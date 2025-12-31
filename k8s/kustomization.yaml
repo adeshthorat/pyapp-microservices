@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - config.yaml
+  - mysqldb/
+  - createuser/
+  - deleteuser/
+  - frontend/
+  - getuser/
+
+# kustomization.yaml
+
+commonLabels:
+  config: appspecs
