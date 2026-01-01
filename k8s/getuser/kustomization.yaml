@@ -8,4 +8,4 @@ resources:
 
 images:
   - name: adesh0303/eks-app
-    newTag: getuserservice
+    newTag: getuser-base
