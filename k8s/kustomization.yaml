@@ -8,8 +8,5 @@ resources:
   - deleteuser/
   - frontend/
   - getuser/
-
 # kustomization.yaml
 
-commonLabels:
-  config: appspecs

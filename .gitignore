@@ -1,3 +1,4 @@
 #ignore .env file
 app/container-setup/.env
 .venv/
+.github/workflows/

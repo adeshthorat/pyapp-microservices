@@ -5,3 +5,7 @@ resources:
   - createuser-deploy.yaml
   - createuser-service.yaml
 # kustomization.yaml
+
+images:
+  - name: adesh0303/eks-app
+    newTag: createuserservice

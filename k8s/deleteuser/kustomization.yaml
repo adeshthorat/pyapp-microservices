@@ -5,3 +5,7 @@ resources:
   - deleteuser-deploy.yaml
   - deleteuser-service.yaml
 # kustomization.yaml
+
+images:
+  - name: adesh0303/eks-app
+    newTag: deleteuserservice
