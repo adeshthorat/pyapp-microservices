@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
-SERVICE_VERSION = "v1.0.1"
+SERVICE_VERSION = "v1.0.2"
 logger = logging.getLogger('createuser_service')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
