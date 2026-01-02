@@ -51,5 +51,4 @@ jobs:
 
       - name: Output image details 🟠
         run: |
-          Service Name: ${{ inputs.service_name || 'N/A' }}
           echo "✅Docker image ${{ inputs.image_repo }}:${{ github.sha }} built and pushed successfully."

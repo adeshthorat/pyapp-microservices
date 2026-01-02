@@ -1,7 +1,6 @@
 #ignore .env file
 app/container-setup/.env
 .venv/
-.github/workflows/update-kustomize.yml
 #ingore all service workflow files
 .github/workflows/*-service.yml
 
