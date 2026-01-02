@@ -12,6 +12,4 @@ jobs:
       image_repo: adesh0303/eks-app
       dockerfile_path: src/backend/createuser/
       service_name: creatuser-service
-      username: ${{ secrets.DOCKER_USERNAME }}
-      password: ${{ secrets.DOCKER_PASSWORD }}
       kustomize_path: k8s/createuser/
