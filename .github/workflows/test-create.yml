@@ -8,6 +8,9 @@ on:
     paths:
       - src/backend/createuser/**
 
+permissions:
+  contents: write
+
 jobs:
   build-image:
     uses: ./.github/workflows/image-builder.yml
@@ -17,6 +20,7 @@ jobs:
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
   update-kustomize:
     needs: build-image
     uses: ./.github/workflows/update-kustomize.yml
