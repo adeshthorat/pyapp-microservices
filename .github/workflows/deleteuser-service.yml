@@ -1,30 +1,30 @@
-name: create-user CI
+name: deleteuser service CI
 
 on:
   push:
     paths:
-      - src/backend/createuser/**
+      - src/backend/deleteuser
   pull_request:
     paths:
-      - src/backend/createuser/**
+      - src/backend/deleteuser
 
 permissions:
   contents: write
 
 jobs:
-  build-image:
+  build-phase:
     uses: ./.github/workflows/image-builder.yml
     with:
       image_repo: adesh0303/eks-app
-      dockerfile_path: src/backend/createuser/
+      dockerfile_path: src/backend/deleteuser
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  update-kustomize:
-    needs: build-image
+  kustomize:
+    needs: build-phase
     uses: ./.github/workflows/update-kustomize.yml
     with:
-      service_name: createuser-service
+      service_name: deleteuser
       image_repo: adesh0303/eks-app
-      kustomize_path: k8s/createuser/
+      kustomize_path: k8s/deleteuser

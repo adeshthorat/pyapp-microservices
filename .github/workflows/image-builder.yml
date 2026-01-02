@@ -1,5 +1,11 @@
 name: image-builder
 
+# This is reusable workflow to build Docker images and push to Docker Hub
+#This workflow called bu other service-specific workflows
+#Required inputs as below:
+# image_repo: Full image repository name (e.g. adesh0303/<repo-name>)
+# dockerfile_path: Path to the Dockerfile directory
+
 on:
   workflow_call:
     secrets:
@@ -19,7 +25,7 @@ on:
         required: true
         type: string
 jobs:
-  build:
+  docker-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository UserPortal 🟠

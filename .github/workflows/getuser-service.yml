@@ -1,0 +1,30 @@
+name: getuserviceCI
+
+on:
+  push:
+    paths:
+      - src/backend/getuservice
+  pull_request:
+    paths:
+      - src/backend/getuservice
+
+permissions:
+  contents: write
+
+jobs:
+  build-phase:
+    uses: ./.github/workflows/image-builder.yml
+    with:
+      image_repo: adesh0303/eks-app
+      dockerfile_path: src/backend/getuservice
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  kustomize:
+    needs: build-phase
+    uses: ./.github/workflows/update-kustomize.yml
+    with:
+      service_name: getuservice
+      image_repo: adesh0303/eks-app
+      kustomize_path: k8s/getuservice

@@ -2,5 +2,4 @@
 app/container-setup/.env
 .venv/
 #ingore all service workflow files
-.github/workflows/*-service.yml
 
