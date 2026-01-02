@@ -12,3 +12,5 @@ jobs:
       image_repo: adesh0303/createuserservice
       dockerfile_path: src/backend/createuser/Dockerfile
       service_name: creatuser-service
+      username: ${{ secrets.DOCKER_USERNAME }}
+      password: ${{ secrets.DOCKER_PASSWORD }}
