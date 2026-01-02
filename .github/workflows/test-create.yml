@@ -1,0 +1,14 @@
+name: create-user CI
+
+on:
+  push:
+    paths:
+      - src/backend/createuser/**
+
+jobs:
+  build:
+    uses: ./.github/workflows/image-builder.yml
+    with:
+      image_repo: adesh0303/createuserservice
+      dockerfile_path: src/backend/createuser/Dockerfile
+      service_name: creatuser-service
