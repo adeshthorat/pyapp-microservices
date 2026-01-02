@@ -1,38 +1,38 @@
 name: Update Kustomize Image
 
 on:
-  workflow_dispatch:
-    inputs:
-      service_name:
-        description: "Service name (e.g. get-user)"
-        required: true
-        default: ""
-      image_repo:
-        description: "Full image repo (e.g. my-registry/get-user)"
-        required: true
-        default: ""
-      kustomize_path:
-        description: "Path to kustomization directory"
-        required: true
-        default: ""
-
-permissions:
-  contents: write
-
-  # workflow_call:
+  # workflow_dispatch:
   #   inputs:
   #     service_name:
   #       description: "Service name (e.g. get-user)"
   #       required: true
-  #       type: string
+  #       default: ""
   #     image_repo:
   #       description: "Full image repo (e.g. my-registry/get-user)"
   #       required: true
-  #       type: string
+  #       default: ""
   #     kustomize_path:
   #       description: "Path to kustomization directory"
   #       required: true
-  #       type: string
+  #       default: ""
+  workflow_call:
+    inputs:
+      service_name:
+        description: "Service name (e.g. get-user)"
+        required: true
+        type: string
+      image_repo:
+        description: "Full image repo (e.g. my-registry/get-user)"
+        required: true
+        type: string
+      kustomize_path:
+        description: "Path to kustomization directory"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
 jobs:
   update-kustomize:
     runs-on: ubuntu-latest

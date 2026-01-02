@@ -14,5 +14,5 @@ jobs:
     with:
       image_repo: adesh0303/eks-app
       dockerfile_path: src/backend/createuser/
-      service_name: creatuser-service
+      service_name: createuser-service
       kustomize_path: k8s/createuser/

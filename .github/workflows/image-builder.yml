@@ -15,6 +15,10 @@ on:
         description: "Service name (e.g. get-user)"
         required: false
         type: string
+      kustomize_path:
+        description: "Path to kustomization directory"
+        required: true
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest
