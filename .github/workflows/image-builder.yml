@@ -19,6 +19,14 @@ on:
         description: "Path to kustomization directory"
         required: true
         type: string
+      DOCKER_USERNAME:
+        description: "Docker Hub username"
+        required: true
+        type: string
+      DOCKER_PASSWORD:
+        description: "Docker Hub password"
+        required: true
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest

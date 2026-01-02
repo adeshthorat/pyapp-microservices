@@ -16,3 +16,6 @@ jobs:
       dockerfile_path: src/backend/createuser/
       service_name: createuser-service
       kustomize_path: k8s/createuser/
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
