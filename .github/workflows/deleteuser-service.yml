@@ -3,10 +3,10 @@ name: deleteuser service CI
 on:
   push:
     paths:
-      - src/backend/deleteuser
+      - src/backend/deleteuser/**
   pull_request:
     paths:
-      - src/backend/deleteuser
+      - src/backend/deleteuser/**
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
     uses: ./.github/workflows/image-builder.yml
     with:
       image_repo: adesh0303/eks-app
-      dockerfile_path: src/backend/deleteuser
+      dockerfile_path: src/backend/deleteuser/
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -27,4 +27,4 @@ jobs:
     with:
       service_name: deleteuser
       image_repo: adesh0303/eks-app
-      kustomize_path: k8s/deleteuser
+      kustomize_path: k8s/deleteuser/
