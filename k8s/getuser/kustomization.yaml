@@ -7,5 +7,5 @@ resources:
 # kustomization.yaml
 
 images:
-- name: adesh0303/eks-app
-  newTag: 2202a9d5c8509d2acfa2396192839d1139718416
+  - name: adesh0303/eks-app
+    newTag: 80eb673b9301578e9ef4490e44b3e910c6007d44
