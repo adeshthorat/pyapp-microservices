@@ -6,7 +6,7 @@ import logging
 app = Flask(__name__)
 CORS(app)
 
-SERVICE_VERSION = "v1.0.0"
+SERVICE_VERSION = "v1.1.1"
 logger = logging.getLogger('createuser_service')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
