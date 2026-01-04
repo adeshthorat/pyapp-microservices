@@ -8,4 +8,4 @@ resources:
 
 images:
   - name: adesh0303/eks-app
-    newTag: 80eb673b9301578e9ef4490e44b3e910c6007d44
+    newTag: dbb692b6bec94f9611afabda9953825d26a1b269
