@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - deleteuser-deploy.yaml
-  - deleteuser-service.yaml
+- deleteuser-deploy.yaml
+- deleteuser-service.yaml
 # kustomization.yaml
 
 images:
-  - name: adesh0303/eks-app
-    newTag: deleteuserservice
+- name: adesh0303/eks-app
+  newTag: 2202a9d5c8509d2acfa2396192839d1139718416
