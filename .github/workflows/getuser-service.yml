@@ -1,12 +1,12 @@
-name: getuserviceCI
+name: getuservice CI
 
 on:
   push:
     paths:
-      - src/backend/getuservice/**
+      - src/backend/getuser/**
   pull_request:
     paths:
-      - src/backend/getuservice/**
+      - src/backend/getuser/**
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
     uses: ./.github/workflows/image-builder.yml
     with:
       image_repo: adesh0303/eks-app
-      dockerfile_path: src/backend/getuservice/
+      dockerfile_path: src/backend/getuser/
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -27,4 +27,4 @@ jobs:
     with:
       service_name: getuservice
       image_repo: adesh0303/eks-app
-      kustomize_path: k8s/getuservice
+      kustomize_path: k8s/getuser
