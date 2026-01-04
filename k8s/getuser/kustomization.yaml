@@ -5,6 +5,7 @@ resources:
   - getuser-deploy.yaml
   - getuser-service.yaml
 # kustomization.yaml
+#new
 
 images:
   - name: adesh0303/eks-app
