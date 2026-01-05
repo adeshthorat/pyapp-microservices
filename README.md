@@ -10,106 +10,142 @@ Each challenge deepens my understanding and fuels my passion for continuous lear
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/adesh-thorat-0b8a541a8/)
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/> </a> <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://kubernetes.io" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg" alt="kubernetes" width="40" height="40"/> </a> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> </p>
+---
+
+# UI :
+
+![alt text](/docs/devops_project.png)
+
+# 🚀 Cloud-Native Microservices Platform (GitOps-Driven)
+
+This repository contains a **production-style, cloud-native microservices application** designed to demonstrate **real-world DevOps, Kubernetes, and GitOps practices**.
+
+The project started as a simple local application and gradually evolved into a **fully containerized, Kubernetes-based microservices platform** with automated CI/CD, observability, and GitOps-driven deployments.
 
 ---
 
-# Flask Microservices with Docker
+## 📌 Project Overview
 
-This project demonstrates a **3-Microservice Architecture** using **Flask**, **Docker**, and a **MySQL** database.  
-Each microservice runs in its own isolated container and communicates with a shared database container over a custom Docker network.
+The application follows a **microservices architecture** where each service is independently developed, built, deployed, and managed.
 
-**Flowchart**
-![alt text](/img/flow.png)
+### Core Use Case
 
-🧩 Microservices Overview
+A simple **user management system** exposing APIs to:
 
-1️⃣ CreateUser Service : Handles **user creation** and adds records to the MySQL database.
+- Create a user
+- Fetch user details
+- Delete a user
 
-2️⃣ DeleteUser Service : Manages **user deletion** by removing user entries from the database.
-
-3️⃣ GetUser Service : Retrieves **user information** based on the provided user ID.
+All services communicate with a shared MySQL database and are exposed via an NGINX-based frontend.
 
 ---
 
-## 🗄️ Database Configuration
-
-- Image:`mysql:8.0-debian`
-- Purpose: Centralized database for all microservices.
-- Persistence:Data is stored persistently using Docker volumes.
-
-## 📦 Docker Volume for Data Persistence
-
-Database persistence is handled via Docker volume:
-
-Host Path : /mysql
-
-Container Path : /var/lib/mysql
-
-This ensures data is retained even after container restarts.
-
-## API Endpoints
-
-1. CreateUser service:
-
-curl -X PUT http://localhost:5000/createuser -H "Content-Type: application/json" -d '{"id":5122, "name":"Jane Doe"}'
+## 🧱 Architecture Overview
 
 ---
 
-2. DeleteUser Service
+## 🛠️ Tech Stack
 
-URL: http://localhost:5001/deleteuser/<user_id>
-Method: DELETE
+### Application
 
-Example:
+- **Python Flask** – Backend microservices
+- **NGINX** – Frontend and request routing
+- **MySQL** – Persistent database
 
-curl -X DELETE http://localhost:5001/deleteuser \
- -H "Content-Type: application/json" \
- -d '{"id":5122}'
+### Containerization & Orchestration
 
----
+- **Docker** – Image creation
+- **Kubernetes** – Container orchestration
+- **Init Containers** – Pre-flight DB connectivity checks
 
-3.GetUser Service
+### CI/CD & GitOps
 
-URL: http://localhost:5002/getuser
-Method: POST
+- **GitHub Actions** – Continuous Integration
+- **Kustomize** – Manifest abstraction and image management
+- **Argo CD** – Continuous Deployment (GitOps)
 
-Example:
+### Observability
 
-curl -X POST http://localhost:5002/getuser \
- -H "Content-Type: application/json" \
- -d '{"id":5122}'
-
----
-
-🐳 Containerization Summary
-
-1.  microservice is containerized separately
-2.  Independent Dockerfiles per service
-3.  Shared MySQL database container
-4.  Connected through my-appnet
+- **Prometheus** – Metrics collection
+- **Grafana** – Metrics visualization and dashboards
 
 ---
 
-🚀 Testing Microservices in Bulk
-
-You can automate or stress-test API calls using:
-
-scripts/bulk-api-calls.py
-This script sends multiple API requests across services for performance and integration testing.
-
-## 📁 Project Structure
+## 📂 Repository Structure
 
 ```plaintext
-pyapp/
-│├── app/container-setup/
+repo/
+│├── src
+    backend/
 │   ├── CreateUser/
 │   ├── DeleteUser/
 │   ├── GetUser/
 │   ├── mysql_data/
 │   └── .env
-│├── scripts/
-│   └── bulk-api-calls.py
+│├──frontend/
+│├──k8s/
+│   ├── kustomization.yaml
+│   ├── base/
+│   │   ├── create-user-deployment.yaml
+│   │   ├── delete-user-deployment.yaml
+│   │   ├── get-user-deployment.yaml
+│   │   ├── mysql-statefulset.yaml
+│   │   ├── nginx-deployment.yaml
+│├── .github/
+│   └── workflows/
+│       └── image-builder.yaml
+        └── update-kustomize.yaml
 │└── README.md
+│└── .gitignore
 ```
+
+---
+
+## 🔄 CI/CD Workflow Explained
+
+### 1️⃣ Continuous Integration (GitHub Actions)
+
+- Triggered on source-code changes
+- Builds Docker images for the affected service
+- Tags images using Git commit SHA
+- Pushes images to container registry
+- Updates image tags in `kustomization.yaml`
+
+### 2️⃣ GitOps Deployment (Argo CD)
+
+- Argo CD continuously watches the Git repository
+- Detects manifest updates
+- Syncs desired state to Kubernetes automatically
+- Ensures the cluster always matches Git
+
+---
+
+## ⚙️ Kubernetes Design Decisions
+
+- **Independent Deployments** for each microservice  
+  Enables isolated scaling and safer rollouts
+
+- **StatefulSet for MySQL**
+
+  - PersistentVolumeClaims ensure data persistence
+  - Stable network identity for database pods
+
+- **Init Containers**
+
+  - Verify database availability before application startup
+  - Prevent crash loops during cold starts
+
+- **Kustomize**
+  - Clean separation of base manifests
+  - Centralized image version management
+
+---
+
+## 📈 Future Enhancements
+
+- Argo Rollouts for canary or blue-green deployments
+- Centralized logging (EFK / Loki)
+- AI-assisted log analysis
+- Multi-environment overlays (dev/stage/prod)
+
+---
