@@ -1,5 +1,1 @@
-#ignore .env file
-app/container-setup/.env
-.venv/
-#ingore all service workflow files
 
