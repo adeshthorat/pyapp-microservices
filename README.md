@@ -1,10 +1,12 @@
-# Hi, I'm Adesh ! 👋
-
-I'm a Devops Engineer , love to build and deploy.
+# Hi, I'm Adesh, a Devops Engineer! 👋
 
 I believe true learning comes from hands-on practice. Building environments from scratch and unraveling their complexities has been a key driver in my growth.
 
-Each challenge deepens my understanding and fuels my passion for continuous learning and problem-solving .
+# 🚀 Cloud-Native Microservices Platform (GitOps-Driven)
+
+This repository contains a **production-style, cloud-native microservices application** designed to demonstrate **real-world DevOps, Kubernetes, and GitOps practices**.
+
+The project started as a simple local application and gradually evolved into a **fully containerized, Kubernetes-based microservices platform** with automated CI/CD, observability, and GitOps-driven deployments.
 
 ## 🔗 Links
 
@@ -12,15 +14,9 @@ Each challenge deepens my understanding and fuels my passion for continuous lear
 
 ---
 
-# UI :
+# Application User Portal:
 
 ![alt text](/docs/devops_project.png)
-
-# 🚀 Cloud-Native Microservices Platform (GitOps-Driven)
-
-This repository contains a **production-style, cloud-native microservices application** designed to demonstrate **real-world DevOps, Kubernetes, and GitOps practices**.
-
-The project started as a simple local application and gradually evolved into a **fully containerized, Kubernetes-based microservices platform** with automated CI/CD, observability, and GitOps-driven deployments.
 
 ---
 
@@ -81,7 +77,6 @@ repo/
 │   ├── DeleteUser/
 │   ├── GetUser/
 │   ├── mysql_data/
-│   └── .env
 │├──frontend/
 │├──k8s/
 │   ├── kustomization.yaml
@@ -146,6 +141,7 @@ repo/
 - Argo Rollouts for canary or blue-green deployments
 - Centralized logging (EFK / Loki)
 - AI-assisted log analysis
-- Multi-environment overlays (dev/stage/prod)
+- HPA / VPA for autoscaling
+- Service Mesh integration (Ingress Controller / Istio)
 
 ---
