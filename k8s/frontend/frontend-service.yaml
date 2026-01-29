@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: frontend
-  type: ClusterIP  # Changed from NodePort - traffic via Istio Gateway
+  type: NodePort  # Changed from NodePort - traffic via Istio Gateway
   ports:
     - name: frontend-port
       port: 80
