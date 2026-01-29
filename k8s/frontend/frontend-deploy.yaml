@@ -21,3 +21,4 @@ spec:
         - key: "userapp"
           operator: "Exists"
           effect: "NoSchedule"
+          value: "critical"

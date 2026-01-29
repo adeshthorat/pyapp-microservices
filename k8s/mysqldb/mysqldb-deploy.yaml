@@ -1,56 +1,35 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysqldb
-  labels:
-    app: mysqldb
+  namespace: default
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: mysqldb
+      app: mysqldb # has to match .spec.template.metadata.labels
+  replicas: 3 # by default is 1
   template:
     metadata:
       labels:
-        app: mysqldb
+        app: mysqldb # has to match .spec.selector.matchLabels
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
-        - name: mysqldb
-          image: adesh0303/eks-app:mysqldb
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: rootpass
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: databasename
-            - name: MYSQL_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: username
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: userpass
-          volumeMounts:
-            - name: mysqldb
-              mountPath: /var/lib/mysqldb
+      - name: mysqldb
+        image: adesh0303/eks-app:mysqldb
+        volumeMounts:
+        - name: db-data
+          mountPath: var/lib/mysqldb
       tolerations:
         - key: "userapp"
           operator: "Exists"
           effect: "NoSchedule"
-          value: "true"
-    volumeClaimTemplates:
-      - metadata:
-          name: mysqldb
-        spec:
-          accessModes: [ "ReadWriteOnce" ]
-          resources:
-            requests:
-              storage: 1Gi
+          value: "critical"
+  volumeClaimTemplates:
+  - metadata:
+      name: db-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
