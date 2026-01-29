@@ -35,6 +35,11 @@ spec:
       containers:
         - name: deleteuser
           image: adesh0303/eks-app:deleteuser-base
+      tolerations:
+        - key: "userapp"
+          operator: "Exists"
+          effect: "NoSchedule"
+          value: "true"
           env:
             - name: DB_HOST
               valueFrom:

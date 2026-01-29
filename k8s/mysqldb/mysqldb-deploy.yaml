@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mysqldb
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: mysqldb
@@ -17,6 +17,11 @@ spec:
       containers:
         - name: mysqldb
           image: adesh0303/eks-app:mysqldb
+      tolerations:
+        - key: "userapp"
+          operator: "Exists"
+          effect: "NoSchedule"
+          value: "true"
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -46,7 +51,6 @@ spec:
         name: mysqldb
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: "my-storage-class"
         resources:
           requests:
-            storage: 500Mib
+            storage: 1Gi

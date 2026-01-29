@@ -6,4 +6,4 @@ resources:
 - createuser-service.yaml
 images:
 - name: adesh0303/eks-app
-  newTag: a068111f437c0373ee9e8f695ca7dc6fce118870
+  newTag: createuser-base

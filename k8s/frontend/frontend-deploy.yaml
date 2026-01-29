@@ -17,3 +17,8 @@ spec:
       containers:
         - name: frontend
           image: adesh0303/eks-app:frontend
+      tolerations:
+        - key: "userapp"
+          operator: "Exists"
+          effect: "NoSchedule"
+          value: "true"

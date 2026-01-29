@@ -35,6 +35,11 @@ spec:
       containers:
         - name: getuser
           image: adesh0303/eks-app:getuser-base
+      tolerations:
+        - key: "userapp"
+          operator: "Exists"
+          effect: "NoSchedule"
+          value: "true"
           env:
             - name: DB_HOST
               valueFrom:
