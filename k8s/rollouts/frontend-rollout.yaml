@@ -1,11 +1,12 @@
-apiVersion: apps/v1
-kind: Deployment
+# Argo Rollout for Frontend - Blue/Green Strategy
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: frontend-app
-  labels:
-    app: frontend
+  name: frontend-rollout
+  namespace: default
 spec:
   replicas: 2
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: frontend
@@ -14,6 +15,7 @@ spec:
       labels:
         app: frontend
     spec:
+      serviceAccountName: frontend-sa
       containers:
         - name: frontend
           image: adesh0303/eks-app:frontend
@@ -22,7 +24,7 @@ spec:
               protocol: TCP
           securityContext:
             runAsNonRoot: true
-            runAsUser: 101  # nginx user
+            runAsUser: 101
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -41,16 +43,12 @@ spec:
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
           volumeMounts:
             - name: cache
               mountPath: /var/cache/nginx
@@ -72,3 +70,37 @@ spec:
           operator: "Equal"
           effect: "NoSchedule"
           value: "critical"
+  strategy:
+    blueGreen:
+      activeService: frontend-svc
+      previewService: frontend-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      # Frontend uses simple HTTP check instead of Prometheus
+      prePromotionAnalysis:
+        templates:
+          - templateName: http-benchmark
+        args:
+          - name: service-url
+            value: http://frontend-preview
+      postPromotionAnalysis:
+        templates:
+          - templateName: http-benchmark
+        args:
+          - name: service-url
+            value: http://frontend-svc
+---
+# Preview Service for Blue/Green
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-preview
+  namespace: default
+spec:
+  selector:
+    app: frontend
+  type: ClusterIP
+  ports:
+    - name: frontend-port
+      port: 80
+      targetPort: 80

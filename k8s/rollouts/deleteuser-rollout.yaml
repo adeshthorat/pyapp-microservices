@@ -1,19 +1,21 @@
-apiVersion: apps/v1
-kind: Deployment
+# Argo Rollout for DeleteUser Service - Blue/Green Strategy
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: createuser-app
-  labels:
-    app: createuser
+  name: deleteuser-rollout
+  namespace: default
 spec:
   replicas: 2
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: createuser
+      app: deleteuser
   template:
     metadata:
       labels:
-        app: createuser
+        app: deleteuser
     spec:
+      serviceAccountName: deleteuser-sa
       initContainers:
         - name: config-check
           image: busybox:1
@@ -33,8 +35,8 @@ spec:
               "until nslookup mysqldb.default.svc.cluster.local ; do echo Waiting for mysqldb; sleep 2;done",
             ]
       containers:
-        - name: createuser
-          image: adesh0303/eks-app:createuser-base
+        - name: deleteuser
+          image: adesh0303/eks-app:deleteuser-base
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -64,7 +66,6 @@ spec:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbname
-          # Security context for container
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
@@ -73,7 +74,6 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
-          # Resource limits and requests
           resources:
             requests:
               memory: "128Mi"
@@ -81,45 +81,29 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "500m"
-          # Health probes
           livenessProbe:
             httpGet:
               path: /health
               port: 5000
             initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /ready
               port: 5000
             initialDelaySeconds: 10
             periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 3
-          startupProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 3
-            failureThreshold: 30
-          # Volume mounts for writable directories
           volumeMounts:
             - name: tmp
               mountPath: /tmp
             - name: cache
               mountPath: /.cache
-      # Pod-level security context
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
-      # Volumes for writable directories (since rootFS is read-only)
       volumes:
         - name: tmp
           emptyDir: {}
@@ -130,3 +114,36 @@ spec:
           operator: "Equal"
           effect: "NoSchedule"
           value: "critical"
+  strategy:
+    blueGreen:
+      activeService: deleteuser
+      previewService: deleteuser-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: success-rate
+        args:
+          - name: service-name
+            value: deleteuser-preview
+      postPromotionAnalysis:
+        templates:
+          - templateName: success-rate
+        args:
+          - name: service-name
+            value: deleteuser
+---
+# Preview Service for Blue/Green
+apiVersion: v1
+kind: Service
+metadata:
+  name: deleteuser-preview
+  namespace: default
+spec:
+  selector:
+    app: deleteuser
+  type: ClusterIP
+  ports:
+    - name: deleteuser-port
+      port: 5000
+      targetPort: 5000

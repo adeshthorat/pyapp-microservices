@@ -4,7 +4,14 @@ LABEL app="GetuserService"
 
 COPY getuser_service.py .
 
-EXPOSE 5002
+# Create non-root user
+RUN useradd -m -u 1000 appuser
+# Change ownership
+RUN chown -R appuser:appuser /app
+# Switch to non-root user
+USER appuser
+
+EXPOSE 5000
 
 CMD ["python", "getuser_service.py"]
 

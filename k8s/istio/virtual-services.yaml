@@ -1,0 +1,94 @@
+# Virtual Services - Traffic routing and management
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: frontend-vs
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - pyapp-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: frontend-svc
+            port:
+              number: 80
+            subset: stable
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+      timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: createuser-vs
+  namespace: default
+spec:
+  hosts:
+    - createuser
+  http:
+    - route:
+        - destination:
+            host: createuser
+            port:
+              number: 5000
+            subset: stable
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+      timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: getuser-vs
+  namespace: default
+spec:
+  hosts:
+    - getuser
+  http:
+    - route:
+        - destination:
+            host: getuser
+            port:
+              number: 5000
+            subset: stable
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+      timeout: 10s
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: deleteuser-vs
+  namespace: default
+spec:
+  hosts:
+    - deleteuser
+  http:
+    - route:
+        - destination:
+            host: deleteuser
+            port:
+              number: 5000
+            subset: stable
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+      timeout: 10s

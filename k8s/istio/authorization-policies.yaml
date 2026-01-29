@@ -1,0 +1,91 @@
+# Authorization Policies - RBAC for service-to-service communication
+---
+# Allow frontend to access backend services
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: frontend-to-backend
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: createuser
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/default"]
+            namespaces: ["default"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            paths: ["/*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: frontend-to-getuser
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: getuser
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/default"]
+            namespaces: ["default"]
+      to:
+        - operation:
+            methods: ["GET", "POST"]
+            paths: ["/*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: frontend-to-deleteuser
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: deleteuser
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/default"]
+            namespaces: ["default"]
+      to:
+        - operation:
+            methods: ["DELETE", "POST"]
+            paths: ["/*"]
+---
+# Allow backend services to access MySQL
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: backend-to-mysql
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/default"]
+      to:
+        - operation:
+            ports: ["3306"]
+---
+# Deny all by default (explicit allow required)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all-default
+  namespace: default
+spec:
+  {}
+  # Empty spec denies all (policies above will allow specific traffic)

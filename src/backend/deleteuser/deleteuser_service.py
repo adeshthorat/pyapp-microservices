@@ -18,16 +18,6 @@ db_config = {
     'port': int(os.getenv('DB_PORT', '3306'))
 }
 
-for i in range(3):
-    try:
-        conn = mysql.connector.connect(**db_config)
-        if conn.is_connected():
-            print("✅ Connected to MySQL database.......")
-            conn.close()
-            break
-    except Exception as e:
-        print("⏳ Waiting for MySQL...", e)
-        time.sleep(3)
 
 def get_db_connection(retries=8, delay=2):
     for attempt in range(1, retries+1):
@@ -80,14 +70,18 @@ def delete_user(user_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/testdb', methods=['GET'])
-def test_db():
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "healthy"}), 200
+
+@app.route('/ready', methods=['GET'])
+def ready():
     try:
         conn = get_db_connection()
         conn.close()
-        return jsonify({'message': 'Database connection successful ✅'}), 200
+        return jsonify({"message": "Database connection successful ✅"}), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"status": "not ready", "error": str(e)}), 503
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5000)

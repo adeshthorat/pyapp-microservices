@@ -1,0 +1,24 @@
+# Telemetry Configuration for Distributed Tracing
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-telemetry
+  namespace: default
+spec:
+  tracing:
+    - providers:
+        - name: jaeger
+      randomSamplingPercentage: 100.0  # 100% sampling for testing (reduce to 1-10% in production)
+      customTags:
+        app_name:
+          literal:
+            value: pyapp-microservices
+  metrics:
+    - providers:
+        - name: prometheus
+      overrides:
+        - match:
+            metric: ALL_METRICS
+          tagOverrides:
+            request_protocol:
+              value: "istio.protocol"

@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-netpol
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: frontend
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow ingress from anywhere (external traffic via NodePort/LoadBalancer/Ingress)
+    # In production with Istio, this would be restricted to istio-ingressgateway
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 80
+  egress:
+    # Allow DNS resolution
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow connections to backend services
+    # Allow to createuser service
+    - to:
+        - podSelector:
+            matchLabels:
+              app: createuser
+      ports:
+        - protocol: TCP
+          port: 5000
+    # Allow to getuser service
+    - to:
+        - podSelector:
+            matchLabels:
+              app: getuser
+      ports:
+        - protocol: TCP
+          port: 5000
+    # Allow to deleteuser service
+    - to:
+        - podSelector:
+            matchLabels:
+              app: deleteuser
+      ports:
+        - protocol: TCP
+          port: 5000

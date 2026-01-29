@@ -1,0 +1,76 @@
+# Analysis Template for Prometheus-based success rate validation
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+  namespace: default
+spec:
+  args:
+    - name: service-name
+  metrics:
+    - name: success-rate
+      interval: 30s
+      count: 5
+      successCondition: result[0] >= 0.95
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: http://prometheus-server.monitoring.svc.cluster.local:9090
+          query: |
+            sum(rate(
+              http_requests_total{
+                service="{{args.service-name}}",
+                status!~"5.."
+              }[2m]
+            ))
+            /
+            sum(rate(
+              http_requests_total{
+                service="{{args.service-name}}"
+              }[2m]
+            ))
+    - name: avg-response-time
+      interval: 30s
+      count: 5
+      successCondition: result[0] <= 500
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: http://prometheus-server.monitoring.svc.cluster.local:9090
+          query: |
+            histogram_quantile(0.95,
+              rate(http_request_duration_seconds_bucket{
+                service="{{args.service-name}}"
+              }[2m])
+            ) * 1000
+---
+# Alternative Analysis Template using Job (for when Prometheus is not available)
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: http-benchmark
+  namespace: default
+spec:
+  args:
+    - name: service-url
+  metrics:
+    - name: http-test
+      count: 1
+      provider:
+        job:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: load-test
+                    image: curlimages/curl:latest
+                    command:
+                      - sh
+                      - -c
+                      - |
+                        for i in $(seq 1 10); do
+                          curl -s -o /dev/null -w "%{http_code}\n" {{args.service-url}}
+                          sleep 1
+                        done
+                restartPolicy: Never
+            backoffLimit: 1

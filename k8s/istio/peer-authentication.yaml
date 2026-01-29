@@ -1,0 +1,22 @@
+# Peer Authentication - Enforce mTLS between services
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default-mtls
+  namespace: default
+spec:
+  mtls:
+    mode: STRICT  # Require mTLS for all service-to-service communication
+---
+# Exception for MySQL (doesn't support mTLS)
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mysql-permissive
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb
+  mtls:
+    mode: PERMISSIVE  # Allow both mTLS and plaintext for MySQL

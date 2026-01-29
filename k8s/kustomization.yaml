@@ -2,9 +2,44 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  # Core configuration
   - config.yaml
+  - secrets.yaml
+  - pod-security-standards.yaml
+  
+  # Application services
   - mysqldb/
   - createuser/
   - deleteuser/
   - frontend/
   - getuser/
+  
+  # Security & Networking
+  - network-policies/default-deny.yaml
+  - network-policies/mysql-netpol.yaml
+  - network-policies/backend-netpol.yaml
+  - network-policies/frontend-netpol.yaml
+  
+  # Istio Service Mesh (optional - requires Istio installation)
+  - istio/gateway.yaml
+  - istio/virtual-services.yaml
+  - istio/destination-rules.yaml
+  - istio/peer-authentication.yaml
+  - istio/authorization-policies.yaml
+  - istio/telemetry.yaml
+  
+  # Reliability & Autoscaling
+  - hpa/backend-hpa.yaml
+  - pdb/all-services-pdb.yaml
+  
+  # RBAC
+  - rbac/service-accounts.yaml
+  
+  # Blue-Green Deployments (optional - requires Argo Rollouts)
+  # Uncomment when ready to use Argo Rollouts
+  # NOTE: Delete standard Deployments before applying Rollouts!
+  # - rollouts/analysis-template.yaml
+  # - rollouts/createuser-rollout.yaml
+  # - rollouts/getuser-rollout.yaml
+  # - rollouts/deleteuser-rollout.yaml
+  # - rollouts/frontend-rollout.yaml

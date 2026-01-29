@@ -1,0 +1,147 @@
+# Destination Rules - Service subsets and traffic policies
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: frontend-dr
+  namespace: default
+spec:
+  host: frontend-svc
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+        maxRequestsPerConnection: 2
+    loadBalancer:
+      simple: LEAST_REQUEST
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+  subsets:
+    - name: stable
+      labels:
+        app: frontend
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL  # mTLS between services
+    - name: canary
+      labels:
+        app: frontend
+        version: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: createuser-dr
+  namespace: default
+spec:
+  host: createuser
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+    loadBalancer:
+      simple: ROUND_ROBIN
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+  subsets:
+    - name: stable
+      labels:
+        app: createuser
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    - name: canary
+      labels:
+        app: createuser
+        version: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: getuser-dr
+  namespace: default
+spec:
+  host: getuser
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+    loadBalancer:
+      simple: ROUND_ROBIN
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+  subsets:
+    - name: stable
+      labels:
+        app: getuser
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    - name: canary
+      labels:
+        app: getuser
+        version: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: deleteuser-dr
+  namespace: default
+spec:
+  host: deleteuser
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        http2MaxRequests: 100
+    loadBalancer:
+      simple: ROUND_ROBIN
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+  subsets:
+    - name: stable
+      labels:
+        app: deleteuser
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    - name: canary
+      labels:
+        app: deleteuser
+        version: canary
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: mysqldb-dr
+  namespace: default
+spec:
+  host: mysqldb
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 50
+    loadBalancer:
+      simple: ROUND_ROBIN
+    tls:
+      mode: DISABLE  # MySQL doesn't use Istio mTLS
