@@ -38,3 +38,15 @@ spec:
                 configMapKeyRef:
                   name: pyapp-config
                   key: userpass
+          volumeMounts:
+          - name: mysqldb
+            mountPath: /var/lib/mysqldb
+    volumeClaimTemplates:
+    - metadata:
+        name: mysqldb
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "my-storage-class"
+        resources:
+          requests:
+            storage: 500Mib
