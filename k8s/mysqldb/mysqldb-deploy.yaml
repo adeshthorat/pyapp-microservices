@@ -17,11 +17,6 @@ spec:
       containers:
         - name: mysqldb
           image: adesh0303/eks-app:mysqldb
-      tolerations:
-        - key: "userapp"
-          operator: "Exists"
-          effect: "NoSchedule"
-          value: "true"
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -44,13 +39,18 @@ spec:
                   name: pyapp-config
                   key: userpass
           volumeMounts:
-          - name: mysqldb
-            mountPath: /var/lib/mysqldb
+            - name: mysqldb
+              mountPath: /var/lib/mysqldb
+      tolerations:
+        - key: "userapp"
+          operator: "Exists"
+          effect: "NoSchedule"
+          value: "true"
     volumeClaimTemplates:
-    - metadata:
-        name: mysqldb
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
+      - metadata:
+          name: mysqldb
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 1Gi
