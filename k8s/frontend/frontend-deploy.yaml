@@ -19,6 +19,6 @@ spec:
           image: adesh0303/eks-app:frontend
       tolerations:
         - key: "userapp"
-          operator: "Exists"
+          operator: "Equal"
           effect: "NoSchedule"
           value: "critical"

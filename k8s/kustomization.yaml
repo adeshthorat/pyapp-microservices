@@ -8,5 +8,3 @@ resources:
   - deleteuser/
   - frontend/
   - getuser/
-# kustomization.yaml
-

@@ -63,6 +63,6 @@ spec:
                   key: dbname
       tolerations:
         - key: "userapp"
-          operator: "Exists"
+          operator: "Equal"
           effect: "NoSchedule"
-          value: "true"
+          value: "critical"
