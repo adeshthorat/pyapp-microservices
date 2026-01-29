@@ -7,42 +7,92 @@ spec:
   selector:
     matchLabels:
       app: mysqldb # has to match .spec.template.metadata.labels
-  serviceName: "mysqldb"
-  replicas: 3 # by default is 1
+  replicas: 2 # by default is 1
   template:
     metadata:
       labels:
         app: mysqldb # has to match .spec.selector.matchLabels
     spec:
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 30
       containers:
         - name: mysqldb
-          image: adesh0303/eks-app:mysqldb
+          image: adesh0303/eks-app:mysqldb-v0
+          ports:
+            - containerPort: 3306
+              protocol: TCP
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
+                secretKeyRef:
+                  name: pyapp-secrets
                   key: rootpass
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: databasename
-            - name: MYSQL_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
-                  key: username
             - name: MYSQL_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: pyapp-config
+                secretKeyRef:
+                  name: pyapp-secrets
                   key: userpass
+          securityContext:
+            runAsNonRoot: false # MySQL requires root for initialization
+            runAsUser: 999 # MySQL user
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - SETGID
+                - SETUID
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
           volumeMounts:
-            - name: db
-              mountPath: /var/lib/mysqldb
+            - name: db-data
+              mountPath: /var/lib/mysql
+            - name: tmp
+              mountPath: /tmp
+      securityContext:
+        fsGroup: 999
+        seccompProfile:
+          type: RuntimeDefault
       volumes:
-        - name: db
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
+        - name: tmp
+          emptyDir: {}
+      tolerations:
+        - key: "userapp"
+          operator: "Equal"
+          effect: "NoSchedule"
+          value: "critical"
+  volumeClaimTemplates:
+    - metadata:
+        name: db-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

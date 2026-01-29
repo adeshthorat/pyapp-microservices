@@ -34,7 +34,7 @@ spec:
             ]
       containers:
         - name: getuser
-          image: adesh0303/eks-app:getuser-base
+          image: adesh0303/getuser-service:v0
           ports:
             - containerPort: 5000
               protocol: TCP

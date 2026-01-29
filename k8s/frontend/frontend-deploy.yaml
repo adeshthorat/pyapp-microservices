@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: adesh0303/eks-app:frontend
+          image: adesh0303/nginx-frontend:v0
           ports:
             - containerPort: 80
               protocol: TCP

@@ -94,7 +94,7 @@ def create_user():
 
 @app.route('/health', methods=['GET'])
 def health():
-    return jsonify({"status": "healthy"}), 200
+    return jsonify({"status": "Healthy🆗"}), 200
 
 @app.route('/ready', methods=['GET'])
 def ready():

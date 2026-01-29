@@ -34,7 +34,7 @@ spec:
             ]
       containers:
         - name: deleteuser
-          image: adesh0303/eks-app:deleteuser-base
+          image: adesh0303/deleteuser-service:v0
           ports:
             - containerPort: 5000
               protocol: TCP

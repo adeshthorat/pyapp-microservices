@@ -34,7 +34,7 @@ spec:
             ]
       containers:
         - name: createuser
-          image: adesh0303/eks-app:createuser-base
+          image: adesh0303/createuser-service:v0
           ports:
             - containerPort: 5000
               protocol: TCP
