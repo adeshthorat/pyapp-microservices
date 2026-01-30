@@ -74,13 +74,13 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
           # Resource limits and requests
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
+          # resources:
+          #   requests:
+          #     memory: "128Mi"
+          #     cpu: "100m"
+          #   limits:
+          #     memory: "256Mi"
+          #     cpu: "500m"
           # Health probes
           livenessProbe:
             httpGet:

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: getuser
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: getuser
@@ -72,13 +72,13 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
+          # resources:
+          #   requests:
+          #     memory: "128Mi"
+          #     cpu: "100m"
+          #   limits:
+          #     memory: "256Mi"
+          #     cpu: "500m"
           livenessProbe:
             httpGet:
               path: /health

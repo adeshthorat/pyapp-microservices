@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: mysqldb # has to match .spec.template.metadata.labels
-  replicas: 2 # by default is 1
+  replicas: 1 # by default is 1
   template:
     metadata:
       labels:
@@ -31,6 +31,11 @@ spec:
                 secretKeyRef:
                   name: pyapp-secrets
                   key: userpass
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbuser
           securityContext:
             runAsNonRoot: false # MySQL requires root for initialization
             runAsUser: 999 # MySQL user
@@ -42,13 +47,13 @@ spec:
                 - CHOWN
                 - SETGID
                 - SETUID
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "1000m"
+          # resources:
+          #   requests:
+          #     memory: "256Mi"
+          #     cpu: "250m"
+          #   limits:
+          #     memory: "512Mi"
+          #     cpu: "1000m"
           livenessProbe:
             exec:
               command:
