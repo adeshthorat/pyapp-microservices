@@ -8,7 +8,4 @@ CREATE TABLE IF NOT EXISTS users (
   city VARCHAR(100)
 );
 
-INSERT INTO users (id) VALUES ('1');
-INSERT INTO users (name) VALUES ('InitialUser');
-INSERT INTO users (email) VALUES ('fakeuser@gmail.com');
-INSERT INTO users (city) VALUES ('Perth');
+INSERT INTO users (id, name, email, city) VALUES (1, 'InitialUser', 'fakeuser@gmail.com', 'Perth');
