@@ -1,0 +1,217 @@
+﻿apiVersion: v1
+data:
+  kubernetes-dashboard.json: "{\r\n  \"annotations\": {\r\n    \"list\": [\r\n      {\r\n
+    \       \"builtIn\": 1,\r\n        \"datasource\": \"-- Grafana --\",\r\n        \"enable\":
+    true,\r\n        \"hide\": true,\r\n        \"iconColor\": \"rgba(0, 211, 255,
+    1)\",\r\n        \"name\": \"Annotations & Alerts\",\r\n        \"type\": \"dashboard\"\r\n
+    \     }\r\n    ]\r\n  },\r\n  \"editable\": true,\r\n  \"gnetId\": null,\r\n  \"graphTooltip\":
+    0,\r\n  \"id\": null,\r\n  \"links\": [],\r\n  \"panels\": [\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"palette-classic\"\r\n          },\r\n          \"custom\":
+    {\r\n            \"axisLabel\": \"\",\r\n            \"axisPlacement\": \"auto\",\r\n
+    \           \"barAlignment\": 0,\r\n            \"drawStyle\": \"line\",\r\n            \"fillOpacity\":
+    10,\r\n            \"gradientMode\": \"none\",\r\n            \"hideFrom\": {\r\n
+    \             \"tooltip\": false,\r\n              \"viz\": false,\r\n              \"legend\":
+    false\r\n            },\r\n            \"lineInterpolation\": \"linear\",\r\n
+    \           \"lineWidth\": 1,\r\n            \"pointSize\": 5,\r\n            \"scaleDistribution\":
+    {\r\n              \"type\": \"linear\"\r\n            },\r\n            \"showPoints\":
+    \"never\",\r\n            \"spanNulls\": true\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              },\r\n              {\r\n                \"color\":
+    \"red\",\r\n                \"value\": 80\r\n              }\r\n            ]\r\n
+    \         },\r\n          \"unit\": \"percent\"\r\n        },\r\n        \"overrides\":
+    []\r\n      },\r\n      \"gridPos\": {\r\n        \"h\": 8,\r\n        \"w\":
+    12,\r\n        \"x\": 0,\r\n        \"y\": 0\r\n      },\r\n      \"id\": 2,\r\n
+    \     \"options\": {\r\n        \"legend\": {\r\n          \"calcs\": [],\r\n
+    \         \"displayMode\": \"list\",\r\n          \"placement\": \"bottom\"\r\n
+    \       },\r\n        \"tooltip\": {\r\n          \"mode\": \"single\"\r\n        }\r\n
+    \     },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\": [\r\n        {\r\n
+    \         \"expr\": \"sum(rate(container_cpu_usage_seconds_total{namespace!=\\\"\\\",pod!=\\\"\\\"}[5m]))
+    by (pod, namespace) * 100\",\r\n          \"refId\": \"A\",\r\n          \"legendFormat\":
+    \"{{namespace}}/{{pod}}\"\r\n        }\r\n      ],\r\n      \"title\": \"Pod CPU
+    Usage (%)\",\r\n      \"type\": \"timeseries\"\r\n    },\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"palette-classic\"\r\n          },\r\n          \"custom\":
+    {\r\n            \"axisLabel\": \"\",\r\n            \"axisPlacement\": \"auto\",\r\n
+    \           \"barAlignment\": 0,\r\n            \"drawStyle\": \"line\",\r\n            \"fillOpacity\":
+    10,\r\n            \"gradientMode\": \"none\",\r\n            \"hideFrom\": {\r\n
+    \             \"tooltip\": false,\r\n              \"viz\": false,\r\n              \"legend\":
+    false\r\n            },\r\n            \"lineInterpolation\": \"linear\",\r\n
+    \           \"lineWidth\": 1,\r\n            \"pointSize\": 5,\r\n            \"scaleDistribution\":
+    {\r\n              \"type\": \"linear\"\r\n            },\r\n            \"showPoints\":
+    \"never\",\r\n            \"spanNulls\": true\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              },\r\n              {\r\n                \"color\":
+    \"red\",\r\n                \"value\": 80\r\n              }\r\n            ]\r\n
+    \         },\r\n          \"unit\": \"bytes\"\r\n        },\r\n        \"overrides\":
+    []\r\n      },\r\n      \"gridPos\": {\r\n        \"h\": 8,\r\n        \"w\":
+    12,\r\n        \"x\": 12,\r\n        \"y\": 0\r\n      },\r\n      \"id\": 3,\r\n
+    \     \"options\": {\r\n        \"legend\": {\r\n          \"calcs\": [],\r\n
+    \         \"displayMode\": \"list\",\r\n          \"placement\": \"bottom\"\r\n
+    \       },\r\n        \"tooltip\": {\r\n          \"mode\": \"single\"\r\n        }\r\n
+    \     },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\": [\r\n        {\r\n
+    \         \"expr\": \"sum(container_memory_working_set_bytes{namespace!=\\\"\\\",pod!=\\\"\\\"})
+    by (pod, namespace)\",\r\n          \"refId\": \"A\",\r\n          \"legendFormat\":
+    \"{{namespace}}/{{pod}}\"\r\n        }\r\n      ],\r\n      \"title\": \"Pod Memory
+    Usage\",\r\n      \"type\": \"timeseries\"\r\n    },\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"thresholds\"\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              },\r\n              {\r\n                \"color\":
+    \"yellow\",\r\n                \"value\": 1\r\n              },\r\n              {\r\n
+    \               \"color\": \"red\",\r\n                \"value\": 5\r\n              }\r\n
+    \           ]\r\n          }\r\n        },\r\n        \"overrides\": []\r\n      },\r\n
+    \     \"gridPos\": {\r\n        \"h\": 8,\r\n        \"w\": 12,\r\n        \"x\":
+    0,\r\n        \"y\": 8\r\n      },\r\n      \"id\": 4,\r\n      \"options\": {\r\n
+    \       \"orientation\": \"auto\",\r\n        \"reduceOptions\": {\r\n          \"values\":
+    false,\r\n          \"calcs\": [\r\n            \"lastNotNull\"\r\n          ],\r\n
+    \         \"fields\": \"\"\r\n        },\r\n        \"showThresholdLabels\": false,\r\n
+    \       \"showThresholdMarkers\": true,\r\n        \"text\": {}\r\n      },\r\n
+    \     \"pluginVersion\": \"8.0.0\",\r\n      \"targets\": [\r\n        {\r\n          \"expr\":
+    \"sum(kube_pod_container_status_restarts_total) by (pod, namespace)\",\r\n          \"refId\":
+    \"A\",\r\n          \"legendFormat\": \"{{namespace}}/{{pod}}\"\r\n        }\r\n
+    \     ],\r\n      \"title\": \"Pod Restart Count\",\r\n      \"type\": \"gauge\"\r\n
+    \   },\r\n    {\r\n      \"datasource\": \"Prometheus\",\r\n      \"fieldConfig\":
+    {\r\n        \"defaults\": {\r\n          \"color\": {\r\n            \"mode\":
+    \"palette-classic\"\r\n          },\r\n          \"custom\": {\r\n            \"hideFrom\":
+    {\r\n              \"tooltip\": false,\r\n              \"viz\": false,\r\n              \"legend\":
+    false\r\n            }\r\n          },\r\n          \"mappings\": []\r\n        },\r\n
+    \       \"overrides\": []\r\n      },\r\n      \"gridPos\": {\r\n        \"h\":
+    8,\r\n        \"w\": 12,\r\n        \"x\": 12,\r\n        \"y\": 8\r\n      },\r\n
+    \     \"id\": 5,\r\n      \"options\": {\r\n        \"legend\": {\r\n          \"displayMode\":
+    \"list\",\r\n          \"placement\": \"bottom\"\r\n        },\r\n        \"pieType\":
+    \"pie\",\r\n        \"tooltip\": {\r\n          \"mode\": \"single\"\r\n        }\r\n
+    \     },\r\n      \"targets\": [\r\n        {\r\n          \"expr\": \"count(kube_pod_status_phase{phase=\\\"Running\\\"})
+    by (namespace)\",\r\n          \"refId\": \"A\",\r\n          \"legendFormat\":
+    \"{{namespace}} - Running\"\r\n        },\r\n        {\r\n          \"expr\":
+    \"count(kube_pod_status_phase{phase=\\\"Pending\\\"}) by (namespace)\",\r\n          \"refId\":
+    \"B\",\r\n          \"legendFormat\": \"{{namespace}} - Pending\"\r\n        },\r\n
+    \       {\r\n          \"expr\": \"count(kube_pod_status_phase{phase=\\\"Failed\\\"})
+    by (namespace)\",\r\n          \"refId\": \"C\",\r\n          \"legendFormat\":
+    \"{{namespace}} - Failed\"\r\n        }\r\n      ],\r\n      \"title\": \"Pod
+    Status by Namespace\",\r\n      \"type\": \"piechart\"\r\n    },\r\n    {\r\n
+    \     \"datasource\": \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\":
+    {\r\n          \"color\": {\r\n            \"mode\": \"thresholds\"\r\n          },\r\n
+    \         \"mappings\": [],\r\n          \"thresholds\": {\r\n            \"mode\":
+    \"absolute\",\r\n            \"steps\": [\r\n              {\r\n                \"color\":
+    \"green\",\r\n                \"value\": null\r\n              }\r\n            ]\r\n
+    \         }\r\n        },\r\n        \"overrides\": []\r\n      },\r\n      \"gridPos\":
+    {\r\n        \"h\": 4,\r\n        \"w\": 6,\r\n        \"x\": 0,\r\n        \"y\":
+    16\r\n      },\r\n      \"id\": 6,\r\n      \"options\": {\r\n        \"colorMode\":
+    \"value\",\r\n        \"graphMode\": \"area\",\r\n        \"justifyMode\": \"auto\",\r\n
+    \       \"orientation\": \"auto\",\r\n        \"reduceOptions\": {\r\n          \"values\":
+    false,\r\n          \"calcs\": [\r\n            \"lastNotNull\"\r\n          ],\r\n
+    \         \"fields\": \"\"\r\n        },\r\n        \"text\": {},\r\n        \"textMode\":
+    \"auto\"\r\n      },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\":
+    [\r\n        {\r\n          \"expr\": \"count(kube_pod_info)\",\r\n          \"refId\":
+    \"A\"\r\n        }\r\n      ],\r\n      \"title\": \"Total Pods\",\r\n      \"type\":
+    \"stat\"\r\n    },\r\n    {\r\n      \"datasource\": \"Prometheus\",\r\n      \"fieldConfig\":
+    {\r\n        \"defaults\": {\r\n          \"color\": {\r\n            \"mode\":
+    \"thresholds\"\r\n          },\r\n          \"mappings\": [],\r\n          \"thresholds\":
+    {\r\n            \"mode\": \"absolute\",\r\n            \"steps\": [\r\n              {\r\n
+    \               \"color\": \"green\",\r\n                \"value\": null\r\n              }\r\n
+    \           ]\r\n          }\r\n        },\r\n        \"overrides\": []\r\n      },\r\n
+    \     \"gridPos\": {\r\n        \"h\": 4,\r\n        \"w\": 6,\r\n        \"x\":
+    6,\r\n        \"y\": 16\r\n      },\r\n      \"id\": 7,\r\n      \"options\":
+    {\r\n        \"colorMode\": \"value\",\r\n        \"graphMode\": \"area\",\r\n
+    \       \"justifyMode\": \"auto\",\r\n        \"orientation\": \"auto\",\r\n        \"reduceOptions\":
+    {\r\n          \"values\": false,\r\n          \"calcs\": [\r\n            \"lastNotNull\"\r\n
+    \         ],\r\n          \"fields\": \"\"\r\n        },\r\n        \"text\":
+    {},\r\n        \"textMode\": \"auto\"\r\n      },\r\n      \"pluginVersion\":
+    \"8.0.0\",\r\n      \"targets\": [\r\n        {\r\n          \"expr\": \"count(kube_service_info)\",\r\n
+    \         \"refId\": \"A\"\r\n        }\r\n      ],\r\n      \"title\": \"Total
+    Services\",\r\n      \"type\": \"stat\"\r\n    },\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"thresholds\"\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              },\r\n              {\r\n                \"color\":
+    \"red\",\r\n                \"value\": 1\r\n              }\r\n            ]\r\n
+    \         }\r\n        },\r\n        \"overrides\": []\r\n      },\r\n      \"gridPos\":
+    {\r\n        \"h\": 4,\r\n        \"w\": 6,\r\n        \"x\": 12,\r\n        \"y\":
+    16\r\n      },\r\n      \"id\": 8,\r\n      \"options\": {\r\n        \"colorMode\":
+    \"value\",\r\n        \"graphMode\": \"area\",\r\n        \"justifyMode\": \"auto\",\r\n
+    \       \"orientation\": \"auto\",\r\n        \"reduceOptions\": {\r\n          \"values\":
+    false,\r\n          \"calcs\": [\r\n            \"lastNotNull\"\r\n          ],\r\n
+    \         \"fields\": \"\"\r\n        },\r\n        \"text\": {},\r\n        \"textMode\":
+    \"auto\"\r\n      },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\":
+    [\r\n        {\r\n          \"expr\": \"count(kube_pod_status_phase{phase=\\\"Failed\\\"})\",\r\n
+    \         \"refId\": \"A\"\r\n        }\r\n      ],\r\n      \"title\": \"Failed
+    Pods\",\r\n      \"type\": \"stat\"\r\n    },\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"thresholds\"\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              }\r\n            ]\r\n          }\r\n
+    \       },\r\n        \"overrides\": []\r\n      },\r\n      \"gridPos\": {\r\n
+    \       \"h\": 4,\r\n        \"w\": 6,\r\n        \"x\": 18,\r\n        \"y\":
+    16\r\n      },\r\n      \"id\": 9,\r\n      \"options\": {\r\n        \"colorMode\":
+    \"value\",\r\n        \"graphMode\": \"area\",\r\n        \"justifyMode\": \"auto\",\r\n
+    \       \"orientation\": \"auto\",\r\n        \"reduceOptions\": {\r\n          \"values\":
+    false,\r\n          \"calcs\": [\r\n            \"lastNotNull\"\r\n          ],\r\n
+    \         \"fields\": \"\"\r\n        },\r\n        \"text\": {},\r\n        \"textMode\":
+    \"auto\"\r\n      },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\":
+    [\r\n        {\r\n          \"expr\": \"count(kube_node_info)\",\r\n          \"refId\":
+    \"A\"\r\n        }\r\n      ],\r\n      \"title\": \"Total Nodes\",\r\n      \"type\":
+    \"stat\"\r\n    },\r\n    {\r\n      \"datasource\": \"Prometheus\",\r\n      \"fieldConfig\":
+    {\r\n        \"defaults\": {\r\n          \"color\": {\r\n            \"mode\":
+    \"palette-classic\"\r\n          },\r\n          \"custom\": {\r\n            \"axisLabel\":
+    \"\",\r\n            \"axisPlacement\": \"auto\",\r\n            \"barAlignment\":
+    0,\r\n            \"drawStyle\": \"line\",\r\n            \"fillOpacity\": 10,\r\n
+    \           \"gradientMode\": \"none\",\r\n            \"hideFrom\": {\r\n              \"tooltip\":
+    false,\r\n              \"viz\": false,\r\n              \"legend\": false\r\n
+    \           },\r\n            \"lineInterpolation\": \"linear\",\r\n            \"lineWidth\":
+    1,\r\n            \"pointSize\": 5,\r\n            \"scaleDistribution\": {\r\n
+    \             \"type\": \"linear\"\r\n            },\r\n            \"showPoints\":
+    \"never\",\r\n            \"spanNulls\": true\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              }\r\n            ]\r\n          },\r\n
+    \         \"unit\": \"Bps\"\r\n        },\r\n        \"overrides\": []\r\n      },\r\n
+    \     \"gridPos\": {\r\n        \"h\": 8,\r\n        \"w\": 12,\r\n        \"x\":
+    0,\r\n        \"y\": 20\r\n      },\r\n      \"id\": 10,\r\n      \"options\":
+    {\r\n        \"legend\": {\r\n          \"calcs\": [],\r\n          \"displayMode\":
+    \"list\",\r\n          \"placement\": \"bottom\"\r\n        },\r\n        \"tooltip\":
+    {\r\n          \"mode\": \"single\"\r\n        }\r\n      },\r\n      \"pluginVersion\":
+    \"8.0.0\",\r\n      \"targets\": [\r\n        {\r\n          \"expr\": \"sum(rate(container_network_receive_bytes_total{namespace!=\\\"\\\",pod!=\\\"\\\"}[5m]))
+    by (pod, namespace)\",\r\n          \"refId\": \"A\",\r\n          \"legendFormat\":
+    \"{{namespace}}/{{pod}} - RX\"\r\n        },\r\n        {\r\n          \"expr\":
+    \"sum(rate(container_network_transmit_bytes_total{namespace!=\\\"\\\",pod!=\\\"\\\"}[5m]))
+    by (pod, namespace)\",\r\n          \"refId\": \"B\",\r\n          \"legendFormat\":
+    \"{{namespace}}/{{pod}} - TX\"\r\n        }\r\n      ],\r\n      \"title\": \"Network
+    I/O\",\r\n      \"type\": \"timeseries\"\r\n    },\r\n    {\r\n      \"datasource\":
+    \"Prometheus\",\r\n      \"fieldConfig\": {\r\n        \"defaults\": {\r\n          \"color\":
+    {\r\n            \"mode\": \"palette-classic\"\r\n          },\r\n          \"custom\":
+    {\r\n            \"axisLabel\": \"\",\r\n            \"axisPlacement\": \"auto\",\r\n
+    \           \"barAlignment\": 0,\r\n            \"drawStyle\": \"line\",\r\n            \"fillOpacity\":
+    10,\r\n            \"gradientMode\": \"none\",\r\n            \"hideFrom\": {\r\n
+    \             \"tooltip\": false,\r\n              \"viz\": false,\r\n              \"legend\":
+    false\r\n            },\r\n            \"lineInterpolation\": \"linear\",\r\n
+    \           \"lineWidth\": 1,\r\n            \"pointSize\": 5,\r\n            \"scaleDistribution\":
+    {\r\n              \"type\": \"linear\"\r\n            },\r\n            \"showPoints\":
+    \"never\",\r\n            \"spanNulls\": true\r\n          },\r\n          \"mappings\":
+    [],\r\n          \"thresholds\": {\r\n            \"mode\": \"absolute\",\r\n
+    \           \"steps\": [\r\n              {\r\n                \"color\": \"green\",\r\n
+    \               \"value\": null\r\n              }\r\n            ]\r\n          }\r\n
+    \       },\r\n        \"overrides\": []\r\n      },\r\n      \"gridPos\": {\r\n
+    \       \"h\": 8,\r\n        \"w\": 12,\r\n        \"x\": 12,\r\n        \"y\":
+    20\r\n      },\r\n      \"id\": 11,\r\n      \"options\": {\r\n        \"legend\":
+    {\r\n          \"calcs\": [],\r\n          \"displayMode\": \"list\",\r\n          \"placement\":
+    \"bottom\"\r\n        },\r\n        \"tooltip\": {\r\n          \"mode\": \"single\"\r\n
+    \       }\r\n      },\r\n      \"pluginVersion\": \"8.0.0\",\r\n      \"targets\":
+    [\r\n        {\r\n          \"expr\": \"sum(kube_pod_container_status_restarts_total)
+    by (namespace)\",\r\n          \"refId\": \"A\",\r\n          \"legendFormat\":
+    \"{{namespace}}\"\r\n        }\r\n      ],\r\n      \"title\": \"Container Restarts
+    by Namespace\",\r\n      \"type\": \"timeseries\"\r\n    }\r\n  ],\r\n  \"schemaVersion\":
+    27,\r\n  \"style\": \"dark\",\r\n  \"tags\": [\"kubernetes\", \"monitoring\"],\r\n
+    \ \"templating\": {\r\n    \"list\": []\r\n  },\r\n  \"time\": {\r\n    \"from\":
+    \"now-6h\",\r\n    \"to\": \"now\"\r\n  },\r\n  \"timepicker\": {},\r\n  \"timezone\":
+    \"\",\r\n  \"title\": \"Kubernetes Cluster Monitoring\",\r\n  \"uid\": \"kubernetes-cluster-monitoring\",\r\n
+    \ \"version\": 0\r\n}\r\n"
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
