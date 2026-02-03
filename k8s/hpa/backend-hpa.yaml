@@ -11,7 +11,7 @@ spec:
     kind: Deployment
     name: createuser-app
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 4
   metrics:
     - type: Resource
       resource:
@@ -54,7 +54,7 @@ spec:
     kind: Deployment
     name: getuser-app
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 4
   metrics:
     - type: Resource
       resource:
@@ -97,7 +97,7 @@ spec:
     kind: Deployment
     name: delete-app
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 4
   metrics:
     - type: Resource
       resource:
@@ -140,7 +140,7 @@ spec:
     kind: Deployment
     name: frontend-app
   minReplicas: 2
-  maxReplicas: 8
+  maxReplicas: 4
   metrics:
     - type: Resource
       resource:
