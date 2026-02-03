@@ -65,22 +65,14 @@ spec:
                   name: pyapp-config
                   key: dbname
           # Security context for container
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-          # Resource limits and requests
-          # resources:
-          #   requests:
-          #     memory: "128Mi"
-          #     cpu: "100m"
-          #   limits:
-          #     memory: "256Mi"
-          #     cpu: "500m"
+          #Resource limits and requests
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           # Health probes
           livenessProbe:
             httpGet:
@@ -113,12 +105,6 @@ spec:
             - name: cache
               mountPath: /.cache
       # Pod-level security context
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
-        seccompProfile:
-          type: RuntimeDefault
       # Volumes for writable directories (since rootFS is read-only)
       volumes:
         - name: tmp
@@ -130,5 +116,4 @@ spec:
           operator: "Equal"
           effect: "NoSchedule"
           value: "critical"
-      serviceAccountName: createuser-sa
       
