@@ -1,11 +1,8 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: ebs-sc
-provisioner: ebs.csi.aws.com
+  name: local-path
+provisioner: k8s.io/local-path
 volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 reclaimPolicy: Delete
-parameters:
-  type: gp3
-  fsType: ext4
