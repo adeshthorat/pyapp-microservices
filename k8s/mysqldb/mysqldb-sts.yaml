@@ -98,7 +98,7 @@ spec:
         name: db-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: ebs-sc
+        storageClassName: "local-path"
         resources:
           requests:
             storage: 5Gi
