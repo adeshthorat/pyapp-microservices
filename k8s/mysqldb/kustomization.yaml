@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - mysqldb-sts.yaml
   - mysqldb-service.yaml
-  - db-sc.yaml
 # kustomization.yaml
