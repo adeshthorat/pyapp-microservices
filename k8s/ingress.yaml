@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    # - http:
+    #     paths:
+    #     - path: /argo
+    #       pathType: Prefix
+    #       backend:
+    #         service:
+    #           name: argocd-svc
+    #           port:
+    #             number: 80
+
+    - path: /app
+      pathType: Prefix
+      backend:
+        service:
+          name: frontend-svc
+          port:
+            number: 80
