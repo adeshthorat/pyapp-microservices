@@ -19,7 +19,7 @@ spec:
           image: busybox:1
           command:
             - sh
-            - '-c'
+            - -c
             - env | grep DB_HOST
           env:
             - name: DB_HOST
@@ -27,47 +27,57 @@ spec:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbhost
+
         - name: mysql-test
           image: busybox:1
           command:
             - sh
-            - '-c'
-            - until nslookup mysqldb.default.svc.cluster.local ; do echo Waiting
-              for mysqldb; sleep 2;done
+            - -c
+            - >
+              until nslookup mysqldb.default.svc.cluster.local;
+              do echo Waiting for mysqldb;
+              sleep 2;
+              done
+
       containers:
         - name: createuser
           image: adesh0303/createuser-service:v0
           ports:
             - containerPort: 5000
               protocol: TCP
+
           env:
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbhost
+
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: pyapp-secrets
                   key: userpass
+
             - name: DB_USER
               valueFrom:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbuser
+
             - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbport
+
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: pyapp-config
                   key: dbname
-          # Security context for container
-          #Resource limits and requests
+
+          # Resource limits and requests
           resources:
             requests:
               memory: 64Mi
@@ -75,6 +85,7 @@ spec:
             limits:
               memory: 128Mi
               cpu: 200m
+
           # Health probes
           livenessProbe:
             httpGet:
@@ -84,6 +95,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
+
           readinessProbe:
             httpGet:
               path: /ready
@@ -92,6 +104,7 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 3
+
           startupProbe:
             httpGet:
               path: /health
@@ -100,67 +113,24 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 30
-          # Volume mounts for writable directories
+
+          # Volume mounts
           volumeMounts:
             - name: tmp
               mountPath: /tmp
             - name: cache
               mountPath: /.cache
-      # Pod-level security context
-      # Volumes for writable directories (since rootFS is read-only)
+
+      # Volumes
       volumes:
         - name: tmp
           emptyDir: {}
+
         - name: cache
           emptyDir: {}
+
       tolerations:
         - key: userapp
           operator: Equal
-          effect: NoSchedule
           value: critical
-Transform: AWS::Serverless-2016-10-31
-Resources:
-  Api:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub
-        - ${ResourceName} From Stack ${AWS::StackName}
-        - ResourceName: Api
-      StageName: Prod
-      DefinitionBody:
-        openapi: '3.0'
-        info: {}
-        paths:
-          /:
-            get:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Function.Arn}/invocations
-              responses: {}
-      EndpointConfiguration: REGIONAL
-      TracingEnabled: true
-  Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      Description: !Sub
-        - Stack ${AWS::StackName} Function ${ResourceName}
-        - ResourceName: Function
-      CodeUri: src/Function
-      Handler: index.handler
-      Runtime: nodejs22.x
-      MemorySize: 3008
-      Timeout: 30
-      Tracing: Active
-      Events:
-        ApiGET:
-          Type: Api
-          Properties:
-            Path: /
-            Method: GET
-            RestApiId: !Ref Api
-  FunctionLogGroup:
-    Type: AWS::Logs::LogGroup
-    DeletionPolicy: Retain
-    Properties:
-      LogGroupName: !Sub /aws/lambda/${Function}
+          effect: NoSchedule

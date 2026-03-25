@@ -63,6 +63,3 @@ aws eks update-kubeconfig \
 
 log "Cluster setup complete ✅"
 
-aws eks update-kubeconfig \
-  --region "us-east-2" \
-  --name "my-eks"

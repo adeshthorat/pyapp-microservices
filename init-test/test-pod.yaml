@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: frontend
-  namespace: default
-  labels:
-    app: frontend
+  name: app
 spec:
   containers:
-  - name: frontend
-    image: adesh0303/wrkapp:latest
-  imagePullSecrets:
-  - name: regcred
-
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
