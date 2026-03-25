@@ -1,0 +1,9 @@
+eksctl create cluster \
+  --name my-eks-cluster \
+  --region ap-south-1 \
+  --nodegroup-name my-node-group \
+  --node-type t3.medium \
+  --nodes 2 \
+  --nodes-min 1 \
+  --nodes-max 3 \
+  --vpc-public-subnets subnet-02af14a8e8cfdbed9,subnet-06630e707819975a9
