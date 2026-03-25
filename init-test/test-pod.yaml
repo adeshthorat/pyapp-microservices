@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  namespace: default
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: frontend
+    image: adesh0303/wrkapp:latest
+  imagePullSecrets:
+  - name: regcred
+

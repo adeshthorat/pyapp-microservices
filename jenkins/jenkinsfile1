@@ -1,0 +1,67 @@
+pipeline {
+    agent { label 'slave1' }   // Run on Jenkins agent slave1
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        DOCKER_IMAGE = "adesh0303/eks-app"
+        CONTAINER_NAME = "eks-app"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/adeshthorat/eks-argo-ops.git'
+            }
+        }
+
+        stage('Clean Up Old Container') {
+            steps {
+                echo 'Stopping and removing any existing container...'
+                sh """
+                    if [ \$(docker ps -a -q -f name=$CONTAINER_NAME) ]; then
+                        docker stop $CONTAINER_NAME || true
+                        docker rm $CONTAINER_NAME || true
+                    fi
+                """
+            }
+        }
+
+        stage('Docker Image Builder') {
+            steps {
+                dir('src') {
+                    script {
+                        // Build Docker image with Jenkins build number
+                        sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_NUMBER} ."
+                        // Optionally scan image with Trivy
+                        // sh "trivy image ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                    }
+                }
+            }
+        }
+
+        stage('Run Nginx Container') {
+            steps {
+                echo 'Running Flask app container...'
+                sh "docker run -d -p 8081:80 --name $CONTAINER_NAME ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build, quality checks, and push completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed during one of the stages.'
+        }
+    }
+}
