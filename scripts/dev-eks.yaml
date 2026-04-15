@@ -1,0 +1,43 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: dev-cluster
+  region: us-east-1
+  version: "1.30"
+
+availabilityZones:
+  - us-east-1a
+  - us-east-1b
+  - us-east-1c
+
+iam:
+  withOIDC: true
+
+vpc:
+  cidr: "10.0.0.0/16"
+  nat:
+    gateway: Single
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+
+addons:
+  - name: vpc-cni
+  - name: coredns
+  - name: kube-proxy
+  - name: aws-ebs-csi-driver
+  - name: metrics-server
+
+managedNodeGroups:
+  - name: linux-node
+    instanceTypes: ["t3.large"]
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 5
+    volumeSize: 20
+    labels:
+      nodegroup: linux-node
+    tags:
+      Environment: dev

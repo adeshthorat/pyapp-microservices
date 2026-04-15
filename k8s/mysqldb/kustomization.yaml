@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - mysqldb-deploy.yaml
+  - mysqldb-sts.yaml
   - mysqldb-service.yaml
 # kustomization.yaml

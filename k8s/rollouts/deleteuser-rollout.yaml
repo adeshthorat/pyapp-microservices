@@ -1,0 +1,149 @@
+# Argo Rollout for DeleteUser Service - Blue/Green Strategy
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: deleteuser-rollout
+  namespace: default
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: deleteuser
+  template:
+    metadata:
+      labels:
+        app: deleteuser
+    spec:
+      serviceAccountName: deleteuser-sa
+      initContainers:
+        - name: config-check
+          image: busybox:1
+          command: ["sh", "-c", "env | grep DB_HOST"]
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbhost
+        - name: mysql-test
+          image: busybox:1
+          command:
+            [
+              "sh",
+              "-c",
+              "until nslookup mysqldb.default.svc.cluster.local ; do echo Waiting for mysqldb; sleep 2;done",
+            ]
+      containers:
+        - name: deleteuser
+          image: adesh0303/eks-app:deleteuser-base
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbhost
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: pyapp-secrets
+                  key: userpass
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbuser
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbport
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pyapp-config
+                  key: dbname
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /.cache
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+      tolerations:
+        - key: "userapp"
+          operator: "Equal"
+          effect: "NoSchedule"
+          value: "critical"
+  strategy:
+    blueGreen:
+      activeService: deleteuser
+      previewService: deleteuser-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: success-rate
+        args:
+          - name: service-name
+            value: deleteuser-preview
+      postPromotionAnalysis:
+        templates:
+          - templateName: success-rate
+        args:
+          - name: service-name
+            value: deleteuser
+---
+# Preview Service for Blue/Green
+apiVersion: v1
+kind: Service
+metadata:
+  name: deleteuser-preview
+  namespace: default
+spec:
+  selector:
+    app: deleteuser
+  type: ClusterIP
+  ports:
+    - name: deleteuser-port
+      port: 5000
+      targetPort: 5000

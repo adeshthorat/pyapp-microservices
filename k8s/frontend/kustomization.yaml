@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- frontend-deploy.yaml
-- frontend-service.yaml
+  - frontend-deploy.yaml
+  - frontend-service.yaml
 # kustomization.yaml
 
 images:
-- name: adesh0303/eks-app
-  newTag: 93abd9310ef9ccd37a08ce2820d7b2fd8a5cc20b
+  - name: adesh0303/nginx-frontend
+    newTag: v0

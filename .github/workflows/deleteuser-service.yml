@@ -15,7 +15,7 @@ jobs:
   build-phase:
     uses: ./.github/workflows/image-builder.yml
     with:
-      image_repo: adesh0303/eks-app
+      image_repo: adesh0303/deleteuser-service
       dockerfile_path: src/backend/deleteuser/
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -26,5 +26,5 @@ jobs:
     uses: ./.github/workflows/update-kustomize.yml
     with:
       service_name: deleteuser
-      image_repo: adesh0303/eks-app
+      image_repo: adesh0303/deleteuser-service
       kustomize_path: k8s/deleteuser/

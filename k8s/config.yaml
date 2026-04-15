@@ -5,12 +5,11 @@ metadata:
   labels:
     config: appspecs
 data:
-  rootpass: "root"
+  # Non-sensitive configuration only
   databasename: "userdb"
   username: "myuser"
-  userpass: "mypass"
   dbhost: "mysqldb"
   dbport: "3306"
   dbname: "userdb"
   dbuser: "myuser"
-  dbpass: "mypass"
+  # Passwords moved to secrets.yaml for security

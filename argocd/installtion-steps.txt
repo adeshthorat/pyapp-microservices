@@ -1,6 +1,5 @@
 Argo CD Installtion Instructions
 ===========================
-
 Prerequisites
 ---------------------------
 kubectl create namespace argocd

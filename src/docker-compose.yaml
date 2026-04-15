@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    build:
+      context: backend/mysqldb
+      dockerfile: Dockerfile
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    env_file:
+      - backend/.env
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - app_network
+  create_user:
+    build:
+      context: backend/createuser
+      dockerfile: Dockerfile
+    container_name: createuser
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysqldb
+    env_file:
+      - backend/.env
+    networks:
+      - app_network
+  get_user:
+    build:
+      context: backend/getuser
+      dockerfile: Dockerfile
+    container_name: getuser
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mysqldb
+    env_file:
+      - backend/.env
+    networks:
+      - app_network
+  delete_user:
+    build:
+      context: backend/deleteuser
+      dockerfile: Dockerfile
+    container_name: deleteuser
+    ports:
+      - "5002:5000"
+    depends_on:
+      - mysqldb
+    env_file:
+      - backend/.env
+    networks:
+      - app_network
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app_network
+volumes:
+  mysqldata:
+
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mysql-netpol
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: mysqldb
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow traffic from backend services only
+    - from:
+        - podSelector:
+            matchLabels:
+              app: createuser
+      ports:
+        - protocol: TCP
+          port: 3306
+    - from:
+        - podSelector:
+            matchLabels:
+              app: getuser
+      ports:
+        - protocol: TCP
+          port: 3306
+    - from:
+        - podSelector:
+            matchLabels:
+              app: deleteuser
+      ports:
+        - protocol: TCP
+          port: 3306
+  egress:
+    # Allow DNS resolution
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow responses back to backend services
+    - to:
+        - podSelector:
+            matchLabels:
+              app: createuser
+    - to:
+        - podSelector:
+            matchLabels:
+              app: getuser
+    - to:
+        - podSelector:
+            matchLabels:
+              app: deleteuser

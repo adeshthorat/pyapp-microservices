@@ -1,6 +1,5 @@
 # Use lightweight Nginx to serve static files
-ARG type="alpine"
-FROM nginx:${type}
+FROM nginx:alpine
 LABEL app="frontendService"
 
 # Remove default nginx page

@@ -1,0 +1,30 @@
+eksctl create cluster \
+  --name my-eks-cluster \
+  --region ap-south-1 \
+  --nodegroup-name my-node-group \
+  --node-type t3.medium \
+  --nodes 2 \
+  --nodes-min 1 \
+  --nodes-max 3 \
+  --vpc-public-subnets subnet-02af14a8e8cfdbed9,subnet-06630e707819975a9
+
+
+eksctl create nodegroup \
+  --cluster userapp-dev-cluster \
+  --region us-east-1 \
+  --name dev-nodegroup \
+  --node-type t3.large \
+  --nodes 2 \
+  --nodes-min 2 \
+  --nodes-max 3 \
+
+aws eks describe-cluster --name "userapp-dev-cluster"  --region "us-east-1"   --query "cluster.status"   --output text
+
+aws eks update-kubeconfig --region "us-east-1" --name "userapp-dev-cluster"
+
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=dev-cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
