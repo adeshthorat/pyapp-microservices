@@ -99,6 +99,7 @@ def delete_user(user_id: int):
         logger.exception("Unexpected error occurred")
         return jsonify({'error': 'An internal server error occurred'}), 500
 
+# Health and readiness endpoints for better observability and monitoring
 @app.route('/health', methods=['GET'])
 def health():
     """Basic health check endpoint."""

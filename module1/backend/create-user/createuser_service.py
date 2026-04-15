@@ -115,6 +115,7 @@ def create_user():
         logger.exception("Unexpected error occurred")
         return jsonify({'error': 'An internal server error occurred'}), 500
 
+# Health and readiness endpoints for better observability and monitoring
 @app.route('/health', methods=['GET'])
 def health():
     """Basic health check endpoint."""

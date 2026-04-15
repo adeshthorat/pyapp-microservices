@@ -1,4 +1,4 @@
-# Use lightweight Nginx to serve static files
+#Use lightweight Nginx to serve static files
 FROM nginx:alpine
 LABEL app="frontendService"
 
